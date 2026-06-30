@@ -1,0 +1,138 @@
+DAY TRADING OVERVIEW
+
+PURPOSE
+This document is a synthetic test file for the Grounded Document Assistant.
+It is written for upload, chunking, retrieval, and citation testing.
+It is educational only and is not financial advice.
+
+DEFINITION
+Day trading is the practice of opening and closing positions within the same
+trading day. A day trader typically avoids holding positions overnight in
+order to reduce exposure to after-hours news, earnings releases, and gap risk.
+
+COMMON MARKETS
+Day traders may trade stocks, futures, foreign exchange, options, or
+cryptocurrencies. Each market has different trading hours, liquidity
+conditions, margin rules, and volatility patterns.
+
+CORE GOAL
+The main goal of day trading is to capture small price movements repeatedly
+while managing downside risk carefully. Successful day trading depends more on
+discipline, process, and risk control than on prediction.
+
+COMMON STRATEGIES
+Momentum trading:
+Momentum traders look for strong price movement supported by volume. They may
+enter when a stock breaks above a key level and exits quickly if the move
+fails.
+
+Breakout trading:
+Breakout traders watch consolidation ranges and key resistance or support
+levels. A trade is taken when price moves out of the range with confirmation.
+
+Reversal trading:
+Reversal traders look for exhaustion at extremes, such as failed breakouts,
+climactic candles, or overextended moves into major levels.
+
+Scalping:
+Scalpers take many small trades and usually hold positions for seconds or
+minutes. This strategy requires fast execution and strict attention to fees
+and slippage.
+
+KEY RISKS
+Leverage risk:
+Leverage can amplify gains but also magnifies losses. A trader using leverage
+must define risk before entering the trade.
+
+Gap risk:
+Although day traders usually close positions before the session ends, fast
+news events can still cause sudden adverse movement during open market hours.
+
+Emotional risk:
+Fear, overconfidence, and revenge trading can damage decision quality.
+Emotional instability is a common reason for inconsistent performance.
+
+Execution risk:
+A trader may not get the expected entry or exit price because of slippage,
+latency, or thin liquidity.
+
+RISK MANAGEMENT PRINCIPLES
+Rule 1:
+Risk a small fixed percentage of account equity per trade. A common risk model
+is to risk one percent or less of total account equity on a single trade.
+
+Rule 2:
+Always define the stop loss before entering a position. The stop loss marks
+the price level where the trade idea is considered invalid.
+
+Rule 3:
+Use position sizing instead of hope. Position size should be calculated from
+account size, stop distance, and maximum acceptable loss.
+
+Rule 4:
+Do not force trades during low-quality market conditions. Capital preservation
+is part of the trading process.
+
+SAMPLE POSITION SIZE EXAMPLE
+If a trader has a ten-thousand-dollar account and is willing to risk one
+percent per trade, the maximum loss is one hundred dollars.
+If the stop loss is fifty cents away from entry, the position size is two
+hundred shares because one hundred dollars divided by fifty cents equals two
+hundred.
+
+TOOLS A DAY TRADER MAY USE
+- price charts
+- volume indicators
+- watchlists
+- market scanners
+- news feeds
+- economic calendars
+- broker order-entry platform
+- trading journal
+
+IMPORTANT METRICS
+Win rate:
+The percentage of trades that close profitably.
+
+Risk-reward ratio:
+The expected gain compared with the planned loss on a trade.
+
+Maximum drawdown:
+The largest peak-to-trough decline in account value over a period.
+
+Expectancy:
+The average amount a trading system is expected to gain or lose per trade over
+time.
+
+SAMPLE DAILY ROUTINE
+Pre-market:
+Review overnight news, identify catalysts, mark key price levels, and define
+the watchlist.
+
+Market open:
+Observe volatility carefully. Many day traders reduce size at the open because
+price movement can be fast and unpredictable.
+
+Midday:
+Liquidity and momentum may slow down. Some traders stop trading during the
+midday session unless a high-conviction setup appears.
+
+Close:
+Review all trades, document mistakes, and record lessons in a journal.
+
+COMMON MISTAKES
+- trading without a plan
+- moving a stop loss farther away after entry
+- increasing size after losses to recover quickly
+- ignoring transaction costs
+- trading illiquid instruments
+- taking low-quality setups out of boredom
+
+PSYCHOLOGY AND PROCESS
+Consistency usually comes from repeatable execution rather than from constant
+strategy switching. A trader should track setups, results, and emotional state
+to identify patterns in decision-making.
+
+FINAL NOTE
+Day trading is high risk. A beginner should practice with simulation, study
+market structure, and focus on risk management before committing real capital.

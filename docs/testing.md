@@ -50,6 +50,10 @@ Used for core user flow:
 
 Can be implemented after core backend is stable.
 
+The repository now also includes a live smoke script at `scripts/demo_smoke.py`
+for validating a running backend plus worker without adding a browser test
+runner yet.
+
 ### Evaluation tests
 
 Used for RAG quality:
@@ -152,11 +156,19 @@ Frontend:
 
 ```bash
 cd frontend
-npm test
 npm run lint
+npm run typecheck
+npm run build
 ```
 
-End-to-end, if Playwright is added:
+Live smoke:
+
+```bash
+source backend/.venv/bin/activate
+python scripts/demo_smoke.py --base-url http://localhost:8000
+```
+
+Browser end-to-end, if Playwright is added later:
 
 ```bash
 cd frontend

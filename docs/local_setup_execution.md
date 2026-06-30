@@ -64,37 +64,44 @@ docker ps
 
 You should see containers for PostgreSQL and Redis.
 
-## 6. Create backend skeleton
+The repository currently maps PostgreSQL to host port `5433` to avoid common local conflicts on `5432`.
 
-Recommended FastAPI setup:
+## 6. Run the backend
+
+Create a virtual environment and install the current backend dependencies:
 
 ```bash
-mkdir backend
+python3 -m venv backend/.venv
+source backend/.venv/bin/activate
+pip install -r backend/requirements.txt
+```
+
+Apply migrations and seed demo data:
+
+```bash
 cd backend
-python3 -m venv .venv
-source .venv/bin/activate
-pip install fastapi uvicorn pydantic sqlalchemy alembic psycopg[binary] redis python-jose passlib[bcrypt] python-multipart
-pip freeze > requirements.txt
-mkdir -p app/api app/core app/db app/models app/services app/workers app/prompts tests
- touch app/__init__.py app/main.py
+alembic upgrade head
+python -m app.db.seed
+cd ..
 ```
 
-Create a minimal healthcheck in `backend/app/main.py`:
+Seeded demo credentials:
 
-```python
-from fastapi import FastAPI
+- owner: `owner@example.com`
+- viewer: `viewer@example.com`
+- password: `grounded-demo`
 
-app = FastAPI(title="Grounded Document Assistant API")
-
-@app.get("/health")
-def health():
-    return {"status": "ok"}
-```
-
-Run:
+Run the backend:
 
 ```bash
-uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload --app-dir backend --port 8000
+```
+
+Open a second backend terminal and run the ingestion worker:
+
+```bash
+source backend/.venv/bin/activate
+python -m app.workers.run
 ```
 
 Validate:
@@ -106,16 +113,24 @@ curl http://localhost:8000/health
 Expected response:
 
 ```json
-{"status":"ok"}
+{
+  "status": "ok",
+  "environment": "development",
+  "timestamp": "2026-05-11T00:00:00+00:00",
+  "checks": {
+    "database": {"status": "ok", "latency_ms": 3.2},
+    "redis": {"status": "ok", "latency_ms": 1.4}
+  }
+}
 ```
 
-## 7. Create frontend skeleton
+## 7. Run the frontend
 
 Open a new terminal in the project root:
 
 ```bash
-npx create-next-app@latest frontend --ts --eslint --tailwind --app --src-dir --import-alias "@/*"
 cd frontend
+npm install
 npm run dev
 ```
 
@@ -126,6 +141,67 @@ Open:
 ```text
 http://localhost:3000
 ```
+
+After login, the current document-management screen is available at:
+
+```text
+http://localhost:3000/app/documents
+```
+
+That screen now shows upload status, ingestion logs, chunk preview, and retry for failed jobs.
+
+The current chat workspace is available at:
+
+```text
+http://localhost:3000/app/chat
+```
+
+The current evaluation workspace is available at:
+
+```text
+http://localhost:3000/app/evaluations
+```
+
+The current operational dashboard is available at:
+
+```text
+http://localhost:3000/app
+```
+
+That dashboard now shows document status cards, recent ingestion activity, your recent chat questions, the latest evaluation snapshot, and live health diagnostics for PostgreSQL and Redis.
+
+Release-readiness smoke flow:
+
+```bash
+source backend/.venv/bin/activate
+python scripts/demo_smoke.py --base-url http://localhost:8000
+```
+
+That command verifies login, upload, ingestion completion, grounded answer generation, and citation return against the running local stack.
+
+The demo seed now creates sample processed documents and a 10-question golden evaluation set for the demo workspace.
+
+Embedding defaults for local development:
+
+- `EMBEDDING_PROVIDER=local`
+- `EMBEDDING_MODEL=local-hash-1536`
+
+If you want to use a real OpenAI-compatible embeddings endpoint later, set:
+
+- `EMBEDDING_PROVIDER=openai_compatible`
+- `EMBEDDING_API_KEY=<your key>`
+- `EMBEDDING_BASE_URL=<provider base url>`
+
+Answer-generation defaults for local development:
+
+- `LLM_PROVIDER=local`
+- `CHAT_MODEL=local-grounded-answerer`
+
+If you want to use a real OpenAI-compatible chat endpoint later, set:
+
+- `LLM_PROVIDER=openai_compatible`
+- `LLM_API_KEY=<your key>`
+- `LLM_BASE_URL=<provider base url>`
 
 ## 8. Configure environment variables
 
@@ -152,8 +228,10 @@ backend/
 │   ├── services/
 │   ├── workers/
 │   └── main.py
+├── pyproject.toml
+├── requirements.txt
 ├── tests/
-└── requirements.txt
+└── .venv/
 ```
 
 ## 10. Suggested frontend folder structure
@@ -189,9 +267,11 @@ git push -u origin main
 ## 13. Final local checklist
 
 - [ ] Repository created inside WSL.
-- [ ] Documentation files copied.
 - [ ] Docker containers running.
-- [ ] Backend healthcheck working.
+- [ ] Migrations applied.
+- [ ] Demo seed loaded.
+- [ ] Backend healthcheck working with PostgreSQL and Redis diagnostics.
+- [ ] Ingestion worker running.
 - [ ] Frontend running.
 - [ ] `.env.example` committed.
 - [ ] `.env` ignored.
@@ -202,15 +282,6 @@ git push -u origin main
 
 After the local foundation works, continue in this order:
 
-1. database migrations;
-2. user model;
-3. authentication;
-4. workspace model;
-5. document upload;
-6. ingestion worker;
-7. chunking;
-8. embeddings;
-9. retrieval;
-10. chat with citations;
-11. evaluation module;
-12. deployment.
+1. dashboard and observability;
+2. testing and hardening;
+3. deployment.

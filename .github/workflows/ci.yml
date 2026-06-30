@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: app
+          POSTGRES_DB: grounded_document_assistant
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U app -d grounded_document_assistant"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql+psycopg://app:app@localhost:5432/grounded_document_assistant
+      REDIS_URL: redis://localhost:6379
+      JWT_SECRET: ci-secret
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install backend dependencies
+        run: pip install -r backend/requirements.txt
+
+      - name: Lint backend
+        run: ruff check backend
+
+      - name: Check backend formatting
+        run: ruff format --check backend
+
+      - name: Apply migrations
+        working-directory: backend
+        run: alembic upgrade head
+
+      - name: Run backend tests
+        working-directory: backend
+        run: pytest
+
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Lint frontend
+        working-directory: frontend
+        run: npm run lint
+
+      - name: Typecheck frontend
+        working-directory: frontend
+        run: npm run typecheck
+
+      - name: Check frontend formatting
+        working-directory: frontend
+        run: npm run format:check
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build

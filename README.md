@@ -118,7 +118,140 @@ cp .env.example .env
 docker compose up -d
 ```
 
-Then run the frontend and backend according to the commands defined in `docs/local_setup_execution.md`.
+Then run the backend:
+
+```bash
+python3 -m venv backend/.venv
+source backend/.venv/bin/activate
+pip install -r backend/requirements.txt
+cd backend
+alembic upgrade head
+python -m app.db.seed
+cd ..
+uvicorn app.main:app --reload --app-dir backend --port 8000
+```
+
+In a second terminal, run the frontend:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+In a third terminal, run the ingestion worker:
+
+```bash
+source backend/.venv/bin/activate
+python -m app.workers.run
+```
+
+Local defaults:
+
+- frontend: `http://localhost:3000`
+- backend: `http://localhost:8000`
+- backend healthcheck: `http://localhost:8000/health`
+- PostgreSQL host port: `5433`
+
+The detailed milestone roadmap lives in `docs/development_plan.md`.
+
+Current backend foundation includes:
+
+- SQLAlchemy models for the core MVP schema;
+- Alembic migrations in `backend/alembic/`;
+- `pgvector` enabled in PostgreSQL;
+- demo seed command at `python -m app.db.seed`;
+- auth endpoints at `/auth/register`, `/auth/login`, `/auth/me`;
+- workspace endpoints at `/workspaces` and `/workspaces/active`;
+- document endpoints at `/documents`, `/documents/{id}`, `/documents/{id}/disable`, and `/documents/{id}/retry`;
+- chat endpoints at `/chat/ask`, `/chat/conversations`, and `/chat/conversations/{id}`;
+- evaluation endpoints at `/evaluations/sets`, `/evaluations/runs`, and `/evaluations/runs/{id}`;
+- dashboard endpoint at `/dashboard`;
+- retrieval endpoint at `/retrieval/search`;
+- Redis-backed ingestion worker entrypoint at `python -m app.workers.run`.
+- live API smoke script at `python scripts/demo_smoke.py`.
+
+Seeded demo credentials:
+
+- owner: `owner@example.com`
+- viewer: `viewer@example.com`
+- password: `grounded-demo`
+
+Seeded demo workspace content now includes:
+
+- four processed sample documents across `workspace`, `restricted`, and `private` visibility;
+- one golden evaluation set;
+- ten seeded evaluation questions tied to the sample documents.
+
+Current document and ingestion slice includes:
+
+- PDF and plain text upload;
+- private local file storage;
+- document and version metadata records;
+- document list and detail retrieval;
+- Redis-backed enqueueing on upload;
+- text extraction for plain text and text-based PDFs;
+- deterministic chunking with previewable chunk metadata;
+- embedding provider abstraction with local deterministic vectors by default;
+- `pgvector` persistence for chunk embeddings;
+- workspace-scoped retrieval with vector search and PostgreSQL keyword fallback;
+- backend visibility filtering for `workspace`, `restricted`, and `private` documents;
+- stored conversations, assistant messages, and validated citations;
+- local grounded answer provider by default, with an optional OpenAI-compatible path;
+- seeded golden-set evaluation runs with persisted results and score summary;
+- ingestion logs and failed-job retry support;
+- disable and delete actions;
+- frontend documents page at `http://localhost:3000/app/documents`;
+- frontend chat workspace at `http://localhost:3000/app/chat`;
+- frontend evaluation workspace at `http://localhost:3000/app/evaluations`.
+- frontend operational dashboard at `http://localhost:3000/app`.
+- expanded backend healthcheck with PostgreSQL and Redis diagnostics.
+- request ID response headers plus structured request logs including workspace ID and duration.
+
+Current embedding configuration:
+
+- default provider: `local`
+- default model: `local-hash-1536`
+- optional remote mode: set `EMBEDDING_PROVIDER=openai_compatible` and provide `EMBEDDING_API_KEY` plus `EMBEDDING_BASE_URL`
+
+Current answer-generation configuration:
+
+- default provider: `local`
+- default model: `local-grounded-answerer`
+- optional remote mode: set `LLM_PROVIDER=openai_compatible` and provide `LLM_API_KEY` plus `LLM_BASE_URL`
+
+## Verification
+
+Backend quality checks:
+
+```bash
+source backend/.venv/bin/activate
+ruff check backend scripts
+ruff format --check backend scripts
+cd backend
+pytest
+```
+
+Frontend quality checks:
+
+```bash
+cd frontend
+npm run lint
+npm run typecheck
+npm run format:check
+npm run build
+```
+
+Live smoke flow against a running backend plus worker:
+
+```bash
+source backend/.venv/bin/activate
+python scripts/demo_smoke.py --base-url http://localhost:8000
+```
+
+That smoke path logs in with the seeded owner account, uploads a text file,
+waits for ingestion, asks a grounded question, and fails if no citation is
+returned.
 
 ## Roadmap
 
@@ -135,7 +268,23 @@ Then run the frontend and backend according to the commands defined in `docs/loc
 
 ## Project status
 
-Planning/documentation phase. This package defines the implementation direction before coding begins.
+Release-readiness phase complete. The repository now includes the initial
+FastAPI backend, Next.js frontend, Docker infrastructure, Alembic migrations,
+the core PostgreSQL schema, demo seed support, a working JWT-based auth flow,
+document upload plus metadata management, a Redis-backed ingestion worker with
+chunk persistence, ingestion logs, retry support, stored chunk embeddings in
+`pgvector`, a permission-aware retrieval API, a chat flow with validated
+citations, a seeded evaluation workflow with persisted runs and score
+summaries, a reviewer-facing dashboard with health diagnostics and recent
+operational activity, and a hardened automated verification path for local
+release checks.
+
+## Known limitations
+
+- The default local answer and embedding providers are deterministic stand-ins for local development, not production-quality model behavior.
+- PDF support currently targets text-based PDFs only; scanned OCR-heavy documents are still deferred.
+- The frontend does not yet include browser-level end-to-end tests such as Playwright.
+- Demo screenshots and GIF assets are still deferred to the deployment and portfolio-polish milestone.
 
 ## Portfolio value
 
