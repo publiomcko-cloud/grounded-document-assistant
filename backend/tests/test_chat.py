@@ -230,8 +230,8 @@ def test_conversation_can_be_deleted(monkeypatch) -> None:
     ask_response = client.post(
         "/chat/ask",
         headers={
-          **auth_header(token),
-          "X-Workspace-Id": workspace_id,
+            **auth_header(token),
+            "X-Workspace-Id": workspace_id,
         },
         json={"question": "What is required for a refund?"},
     )
@@ -241,8 +241,8 @@ def test_conversation_can_be_deleted(monkeypatch) -> None:
     delete_response = client.delete(
         f"/chat/conversations/{conversation_id}",
         headers={
-          **auth_header(token),
-          "X-Workspace-Id": workspace_id,
+            **auth_header(token),
+            "X-Workspace-Id": workspace_id,
         },
     )
     assert delete_response.status_code == 204
@@ -250,8 +250,8 @@ def test_conversation_can_be_deleted(monkeypatch) -> None:
     detail_response = client.get(
         f"/chat/conversations/{conversation_id}",
         headers={
-          **auth_header(token),
-          "X-Workspace-Id": workspace_id,
+            **auth_header(token),
+            "X-Workspace-Id": workspace_id,
         },
     )
     assert detail_response.status_code == 404
@@ -259,8 +259,8 @@ def test_conversation_can_be_deleted(monkeypatch) -> None:
     list_response = client.get(
         "/chat/conversations",
         headers={
-          **auth_header(token),
-          "X-Workspace-Id": workspace_id,
+            **auth_header(token),
+            "X-Workspace-Id": workspace_id,
         },
     )
     assert list_response.status_code == 200

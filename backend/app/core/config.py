@@ -10,7 +10,9 @@ class Settings(BaseSettings):
     database_url: str = (
         "postgresql+psycopg://app:app@localhost:5433/grounded_document_assistant"
     )
-    redis_url: str = "redis://localhost:6379"
+    redis_url: str | None = None
+    redis_host: str | None = None
+    redis_port: int = 6379
     app_env: str = "development"
     jwt_secret: str = "change-me"
     jwt_algorithm: str = "HS256"
@@ -51,6 +53,14 @@ class Settings(BaseSettings):
         return [
             origin.strip() for origin in self.cors_origins.split(",") if origin.strip()
         ]
+
+    @property
+    def redis_connection_url(self) -> str:
+        if self.redis_url:
+            return self.redis_url
+        if self.redis_host:
+            return f"redis://{self.redis_host}:{self.redis_port}"
+        return "redis://localhost:6379"
 
     @property
     def max_upload_bytes(self) -> int:

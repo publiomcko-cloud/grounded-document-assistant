@@ -11,7 +11,7 @@ settings = get_settings()
 
 
 def get_redis_connection() -> Redis:
-    return Redis.from_url(settings.redis_url)
+    return Redis.from_url(settings.redis_connection_url)
 
 
 def get_ingestion_queue() -> Queue:

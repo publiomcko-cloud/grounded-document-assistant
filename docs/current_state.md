@@ -9,7 +9,7 @@ This document describes the current public portfolio state of Grounded Document 
 - API docs: pending deployment
 - Demo video: pending recording
 
-The planned public demo stack is Vercel for the frontend, Render for the FastAPI backend and ingestion worker, Supabase PostgreSQL with `pgvector`, and an external Redis provider for the ingestion queue.
+The planned public demo stack is Vercel for the frontend, Render for the FastAPI backend, Supabase PostgreSQL with `pgvector`, and Render Key Value for Redis-compatible health checks and queue support. The first public demo runs ingestion inline on the backend; a separate worker is a later upgrade after shared file storage exists.
 
 ## Current Stack
 
@@ -22,7 +22,7 @@ The planned public demo stack is Vercel for the frontend, Render for the FastAPI
 - AI providers: local deterministic providers by default, OpenAI-compatible provider paths available
 - Testing: pytest, ruff, frontend lint/typecheck/build, live smoke script
 - CI: GitHub Actions for backend and frontend validation
-- Planned hosting: Vercel, Render, Supabase, external Redis
+- Planned hosting: Vercel, Render, Supabase, Render Key Value
 
 ## Implemented Features
 
@@ -123,9 +123,9 @@ Remaining deployment work:
 
 - add backend deployment assets;
 - configure Supabase PostgreSQL and enable `pgvector`;
-- choose and configure a Redis provider;
+- configure Render Key Value and `REDIS_URL`;
 - decide whether public uploads should persist across deploy restarts;
-- configure Render backend and worker services;
+- configure Render backend service;
 - configure Vercel frontend with `NEXT_PUBLIC_API_BASE_URL`;
 - seed public synthetic demo data;
 - validate public login, upload, ingestion, chat, citations, and evaluations;

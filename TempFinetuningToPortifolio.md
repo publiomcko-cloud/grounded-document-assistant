@@ -4,7 +4,7 @@ Project: Grounded Document Assistant
 
 Reference project: `/home/publio/projetos/eCommerce` / DataPulse Commerce
 
-Target deployment pattern: Supabase PostgreSQL + Render backend/worker + Vercel frontend
+Target deployment pattern: Supabase PostgreSQL + Render backend + Render Key Value + Vercel frontend
 
 ## 1. Goal
 
@@ -86,10 +86,10 @@ Grounded Document Assistant should reach the same portfolio shape, adapted to an
 - [x] `frontend/README.md` is project-specific.
 - [x] Historical planning docs are archived.
 - [x] README is shaped like a recruiter/client portfolio page.
-- [ ] Deployment docs are generic and do not yet describe the chosen Supabase + Render + Vercel path.
-- [ ] No backend Dockerfile.
-- [ ] No frontend Dockerfile.
-- [ ] No Render deployment blueprint.
+- [x] Deployment docs describe the chosen Supabase + Render + Vercel path.
+- [x] Backend Dockerfile exists.
+- [x] Frontend Dockerfile exists.
+- [x] Render deployment blueprint exists.
 - [ ] No Playwright/browser E2E test.
 - [ ] No public demo safety statement near the top of README.
 - [ ] No final portfolio readiness classification.
@@ -159,18 +159,20 @@ DATABASE_URL=postgresql+psycopg://...
 
 ### Redis
 
-Render does not provide built-in Redis on the free plan in the same way as PostgreSQL.
+The Phase 5 deployment path uses Render Key Value for Redis-compatible connectivity.
 
 Recommended options:
 
-- Upstash Redis for public demo
-- Render Redis if available on the selected plan
+- Render Key Value for the first public demo
+- Upstash Redis if you prefer an external Redis provider
 - Railway Redis if a separate Redis service is acceptable
 
 Required variable:
 
 ```env
 REDIS_URL=redis://...
+REDIS_HOST=
+REDIS_PORT=6379
 ```
 
 ### File Storage
@@ -322,7 +324,7 @@ Suggested current stack:
 - Queue: Redis + RQ worker
 - AI: local deterministic provider by default, OpenAI-compatible provider path available
 - Testing: pytest, ruff, Next lint/typecheck/build, smoke script
-- Planned hosting: Vercel frontend, Render backend and worker, Supabase PostgreSQL, external Redis
+- Planned hosting: Vercel frontend, Render backend, Supabase PostgreSQL, Render Key Value
 
 Acceptance criteria:
 
@@ -367,51 +369,53 @@ Objective: make public deployment repeatable.
 
 Tasks:
 
-- [ ] Add `backend/Dockerfile`.
-- [ ] Add `frontend/Dockerfile` only if needed for production-like local validation.
-- [ ] Add `render.yaml` for:
-  - [ ] backend web service
-  - [ ] ingestion worker service
-  - [ ] required environment variables
-- [ ] Update `docs/deployment.md` for Supabase + Render + Vercel.
-- [ ] Add Supabase setup section:
-  - [ ] create project
-  - [ ] enable `vector` extension
-  - [ ] copy pooled or direct database URL
-  - [ ] run Alembic migrations
-  - [ ] run demo seed
-- [ ] Add Render setup section:
-  - [ ] backend service
-  - [ ] worker service
-  - [ ] `DATABASE_URL`
-  - [ ] `REDIS_URL`
-  - [ ] `JWT_SECRET`
-  - [ ] `CORS_ORIGINS`
-  - [ ] provider variables if remote LLM/embedding mode is used
-- [ ] Add Vercel setup section:
-  - [ ] set root directory to `frontend`
-  - [ ] set `NEXT_PUBLIC_API_BASE_URL`
-  - [ ] deploy
-- [ ] Add post-deploy validation checklist:
-  - [ ] `/health`
-  - [ ] `/docs`
-  - [ ] owner login
-  - [ ] upload text document
-  - [ ] worker processes document
-  - [ ] chat returns citation
-  - [ ] evaluation run completes
+- [x] Add `backend/Dockerfile`.
+- [x] Add `frontend/Dockerfile` only if needed for production-like local validation.
+- [x] Add `render.yaml` for:
+  - [x] backend web service
+  - [x] Redis-compatible Render Key Value service
+  - [x] optional paid ingestion worker upgrade path
+  - [x] required environment variables
+- [x] Update `docs/deployment.md` for Supabase + Render + Vercel.
+- [x] Add Supabase setup section:
+  - [x] create project
+  - [x] enable `vector` extension
+  - [x] copy pooled or direct database URL
+  - [x] run Alembic migrations
+  - [x] run demo seed
+- [x] Add Render setup section:
+  - [x] backend service
+  - [x] Redis/Key Value service
+  - [x] optional worker service
+  - [x] `DATABASE_URL`
+  - [x] `REDIS_HOST` / `REDIS_PORT`
+  - [x] `JWT_SECRET`
+  - [x] `CORS_ORIGINS`
+  - [x] provider variables if remote LLM/embedding mode is used
+- [x] Add Vercel setup section:
+  - [x] set root directory to `frontend`
+  - [x] set `NEXT_PUBLIC_API_BASE_URL`
+  - [x] deploy
+- [x] Add post-deploy validation checklist:
+  - [x] `/health`
+  - [x] `/docs`
+  - [x] owner login
+  - [x] upload text document
+  - [x] inline ingestion processes document
+  - [x] chat returns citation
+  - [x] evaluation run completes
 
 Important decision:
 
-- [ ] Decide whether public demo supports user uploads persistently.
+- [x] Decide whether public demo supports user uploads persistently.
 - [ ] If yes, implement Supabase Storage/S3 storage adapter.
-- [ ] If no, document that uploaded demo files may be reset by hosting restarts.
+- [x] If no, document that uploaded demo files may be reset by hosting restarts.
 
 Acceptance criteria:
 
-- [ ] A reviewer can understand exactly where each service is hosted.
-- [ ] Deployment docs do not list unused variables as required.
-- [ ] Public deployment does not depend on committed secrets.
+- [x] A reviewer can understand exactly where each service is hosted.
+- [x] Deployment docs do not list unused variables as required.
+- [x] Public deployment does not depend on committed secrets.
 
 ## 10. Phase 6 — Screenshots
 
@@ -682,7 +686,7 @@ Mark the project portfolio-ready only when all of these are true:
 - [x] `CHANGELOG.md` exists.
 - [x] `LICENSE` exists.
 - [x] Historical docs are archived.
-- [ ] Deployment docs describe Supabase + Render + Vercel accurately.
+- [x] Deployment docs describe Supabase + Render + Vercel accurately.
 - [ ] Environment docs match actual code.
 - [ ] Local validation commands pass.
 - [ ] Public smoke checks pass.

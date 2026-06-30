@@ -59,7 +59,7 @@ def _check_database() -> dict[str, object]:
 
 def _check_redis() -> dict[str, object]:
     started = time.perf_counter()
-    redis_client = Redis.from_url(settings.redis_url)
+    redis_client = Redis.from_url(settings.redis_connection_url)
     try:
         redis_client.ping()
         latency_ms = round((time.perf_counter() - started) * 1000, 2)

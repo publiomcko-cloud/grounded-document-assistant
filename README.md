@@ -13,7 +13,7 @@ Grounded Document Assistant is a portfolio project built to demonstrate applied 
 - API docs: pending deployment
 - Demo video: pending recording
 
-Planned public deployment uses Vercel for the frontend, Render for the FastAPI backend and ingestion worker, Supabase PostgreSQL with `pgvector`, and an external Redis provider for the queue.
+Planned public deployment uses Vercel for the frontend, Render for the FastAPI backend, Supabase PostgreSQL with `pgvector`, and Render Key Value for Redis-compatible health checks and queue support. The first public demo runs ingestion inline on the backend; a separate worker is documented as a later upgrade after shared file storage is added.
 
 ## Demo Users
 
@@ -73,7 +73,7 @@ It can be adapted into solutions such as:
 ## Core Demo Flow
 
 ```text
-login -> dashboard -> upload document -> worker ingestion -> chunks/embeddings
+login -> dashboard -> upload document -> ingestion -> chunks/embeddings
       -> ask grounded question -> inspect citations -> run evaluation set
 ```
 
@@ -95,13 +95,12 @@ Planned screenshot set:
 ```text
 Browser
   -> Vercel Next.js frontend
-  -> Render FastAPI backend
-  -> Render background ingestion worker
+  -> Render FastAPI backend with inline ingestion
   -> Supabase PostgreSQL with pgvector
-  -> External Redis queue provider
+  -> Render Key Value Redis-compatible service
 ```
 
-The frontend calls the backend through `NEXT_PUBLIC_API_BASE_URL`. The backend owns authentication, document APIs, retrieval, chat, evaluations, dashboard data, and health checks. The worker consumes ingestion jobs from Redis and writes processed chunks and embeddings to PostgreSQL.
+The frontend calls the backend through `NEXT_PUBLIC_API_BASE_URL`. The backend owns authentication, document APIs, retrieval, chat, evaluations, dashboard data, health checks, and first-demo inline ingestion. A separate worker can consume ingestion jobs from Redis later after uploaded files move to shared object storage.
 
 ## Local Quick Start
 
@@ -263,7 +262,7 @@ Archive:
 
 ## Roadmap
 
-- Deploy public demo with Vercel, Render, Supabase PostgreSQL, and an external Redis provider.
+- Deploy public demo with Vercel, Render, Supabase PostgreSQL, and Render Key Value.
 - Add screenshots and a 60 to 180 second demo video.
 - Create current state, case study, demo script, and portfolio readiness docs.
 - Add Playwright browser E2E coverage.

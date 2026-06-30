@@ -1,0 +1,111 @@
+# Render Blueprint for the public portfolio demo.
+#
+# This cost-safe default deploys:
+# - a FastAPI web service
+# - a Render Key Value instance for Redis-compatible health checks and queue support
+#
+# The web service uses INGESTION_QUEUE_EAGER=true so uploads are processed inline.
+# That keeps the first public demo functional without a paid always-on worker and
+# without shared object storage between separate Render services.
+
+services:
+  - type: keyvalue
+    name: grounded-document-assistant-redis
+    plan: free
+    ipAllowList: []
+    maxmemoryPolicy: noeviction
+
+  - type: web
+    name: grounded-document-assistant-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    preDeployCommand: alembic upgrade head
+    initialDeployHook: python -m app.db.seed
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_HOST
+        fromService:
+          type: keyvalue
+          name: grounded-document-assistant-redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          type: keyvalue
+          name: grounded-document-assistant-redis
+          property: port
+      - key: APP_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 60
+      - key: CORS_ORIGINS
+        sync: false
+      - key: FILE_STORAGE_PATH
+        value: /tmp/grounded-document-assistant-storage
+      - key: MAX_UPLOAD_MB
+        value: 25
+      - key: INGESTION_CHUNK_SIZE_WORDS
+        value: 180
+      - key: INGESTION_CHUNK_OVERLAP_WORDS
+        value: 30
+      - key: INGESTION_QUEUE_NAME
+        value: grounded-document-assistant-ingestion
+      - key: INGESTION_JOB_TIMEOUT_SECONDS
+        value: 600
+      - key: INGESTION_QUEUE_EAGER
+        value: true
+      - key: LLM_PROVIDER
+        value: local
+      - key: CHAT_MODEL
+        value: local-grounded-answerer
+      - key: EMBEDDING_PROVIDER
+        value: local
+      - key: EMBEDDING_MODEL
+        value: local-hash-1536
+      - key: EMBEDDING_REQUEST_TIMEOUT_SECONDS
+        value: 30
+      - key: RETRIEVAL_TOP_K_DEFAULT
+        value: 5
+      - key: ANSWER_MAX_CITATIONS
+        value: 3
+
+# Optional paid worker upgrade:
+#
+# Add this service only after implementing shared file storage, such as Supabase
+# Storage or S3-compatible storage. With local disk storage, a separate worker
+# cannot read files uploaded to the web service instance.
+#
+#  - type: worker
+#    name: grounded-document-assistant-worker
+#    runtime: python
+#    rootDir: backend
+#    buildCommand: pip install -r requirements.txt
+#    startCommand: python -m app.workers.run
+#    plan: starter
+#    envVars:
+#      - key: DATABASE_URL
+#        sync: false
+#      - key: REDIS_HOST
+#        fromService:
+#          type: keyvalue
+#          name: grounded-document-assistant-redis
+#          property: host
+#      - key: REDIS_PORT
+#        fromService:
+#          type: keyvalue
+#          name: grounded-document-assistant-redis
+#          property: port
+#      - key: APP_ENV
+#        value: production
+#      - key: FILE_STORAGE_PATH
+#        sync: false
+#      - key: INGESTION_QUEUE_EAGER
+#        value: false

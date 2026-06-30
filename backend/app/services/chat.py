@@ -232,9 +232,7 @@ def delete_conversation(
         )
 
     message_ids = list(
-        db.scalars(
-            select(Message.id).where(Message.conversation_id == conversation.id)
-        )
+        db.scalars(select(Message.id).where(Message.conversation_id == conversation.id))
     )
     if message_ids:
         db.execute(
