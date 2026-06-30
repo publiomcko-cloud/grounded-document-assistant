@@ -77,15 +77,15 @@ Grounded Document Assistant should reach the same portfolio shape, adapted to an
 - [ ] No public API docs URL yet.
 - [ ] No demo video yet.
 - [ ] No screenshots folder yet.
-- [ ] No `docs/current_state.md`.
-- [ ] No `docs/case_study.md`.
+- [x] `docs/current_state.md` exists.
+- [x] `docs/case_study.md` exists.
 - [ ] No `docs/demo_script.md`.
 - [ ] No `docs/portfolio_readiness.md`.
-- [ ] No `CHANGELOG.md`.
-- [ ] No `LICENSE`.
-- [ ] `frontend/README.md` is still default Next.js boilerplate.
-- [ ] Historical planning docs are still mixed with current docs.
-- [ ] README is informative but not yet shaped like a recruiter/client portfolio page.
+- [x] `CHANGELOG.md` exists.
+- [x] `LICENSE` exists.
+- [x] `frontend/README.md` is project-specific.
+- [x] Historical planning docs are archived.
+- [x] README is shaped like a recruiter/client portfolio page.
 - [ ] Deployment docs are generic and do not yet describe the chosen Supabase + Render + Vercel path.
 - [ ] No backend Dockerfile.
 - [ ] No frontend Dockerfile.
@@ -202,8 +202,8 @@ Tasks:
   - [x] `database_modeling.md`
   - [x] `deployment.md`
   - [x] `testing.md`
-  - [ ] `current_state.md`
-  - [ ] `case_study.md`
+  - [x] `current_state.md`
+  - [x] `case_study.md`
   - [ ] `demo_script.md`
   - [ ] `portfolio_readiness.md`
 - [x] Add `CHANGELOG.md`.
@@ -306,13 +306,13 @@ Create `docs/current_state.md`.
 
 Required sections:
 
-- [ ] Public Demo
-- [ ] Current Stack
-- [ ] Implemented Features
-- [ ] Current Validation Commands
-- [ ] Demo Users
-- [ ] Current Limitations
-- [ ] Deployment Status
+- [x] Public Demo
+- [x] Current Stack
+- [x] Implemented Features
+- [x] Current Validation Commands
+- [x] Demo Users
+- [x] Current Limitations
+- [x] Deployment Status
 
 Suggested current stack:
 
@@ -326,9 +326,9 @@ Suggested current stack:
 
 Acceptance criteria:
 
-- [ ] The document reflects actual implemented features.
-- [ ] Public demo links are marked pending until deployed.
-- [ ] Limitations are honest and not alarmist.
+- [x] The document reflects actual implemented features.
+- [x] Public demo links are marked pending until deployed.
+- [x] Limitations are honest and not alarmist.
 
 ## 8. Phase 4 — Case Study
 
@@ -336,16 +336,16 @@ Create `docs/case_study.md`.
 
 Required sections:
 
-- [ ] Problem
-- [ ] Target Users
-- [ ] Solution
-- [ ] Main Features
-- [ ] Architecture
-- [ ] AI/RAG Flow
-- [ ] Technical Decisions
-- [ ] Trade-offs
-- [ ] Results
-- [ ] Next Steps
+- [x] Problem
+- [x] Target Users
+- [x] Solution
+- [x] Main Features
+- [x] Architecture
+- [x] AI/RAG Flow
+- [x] Technical Decisions
+- [x] Trade-offs
+- [x] Results
+- [x] Next Steps
 
 Key points to include:
 
@@ -357,9 +357,9 @@ Key points to include:
 
 Acceptance criteria:
 
-- [ ] Case study is readable by non-engineers and technical reviewers.
-- [ ] It does not overclaim production readiness.
-- [ ] It distinguishes MVP/demo trade-offs from production needs.
+- [x] Case study is readable by non-engineers and technical reviewers.
+- [x] It does not overclaim production readiness.
+- [x] It distinguishes MVP/demo trade-offs from production needs.
 
 ## 9. Phase 5 — Deployment Assets
 
@@ -675,13 +675,13 @@ Mark the project portfolio-ready only when all of these are true:
 - [ ] Demo credentials work.
 - [ ] Screenshots exist and are linked.
 - [ ] Demo video exists or is explicitly marked pending with a local MP4 plan.
-- [ ] `docs/current_state.md` exists.
-- [ ] `docs/case_study.md` exists.
+- [x] `docs/current_state.md` exists.
+- [x] `docs/case_study.md` exists.
 - [ ] `docs/demo_script.md` exists.
 - [ ] `docs/portfolio_readiness.md` exists.
-- [ ] `CHANGELOG.md` exists.
-- [ ] `LICENSE` exists.
-- [ ] Historical docs are archived.
+- [x] `CHANGELOG.md` exists.
+- [x] `LICENSE` exists.
+- [x] Historical docs are archived.
 - [ ] Deployment docs describe Supabase + Render + Vercel accurately.
 - [ ] Environment docs match actual code.
 - [ ] Local validation commands pass.

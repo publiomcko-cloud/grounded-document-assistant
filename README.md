@@ -228,6 +228,8 @@ The smoke script logs in with the seeded owner account, uploads a text file, wai
 
 - [Changelog](CHANGELOG.md)
 - [Architecture](docs/architecture.md)
+- [Case study](docs/case_study.md)
+- [Current state](docs/current_state.md)
 - [Database modeling](docs/database_modeling.md)
 - [Deployment](docs/deployment.md)
 - [Local setup](docs/local_setup_execution.md)
