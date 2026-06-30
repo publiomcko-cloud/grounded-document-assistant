@@ -381,8 +381,8 @@ Tasks:
   - [x] create project
   - [x] enable `vector` extension
   - [x] copy pooled or direct database URL
-  - [x] run Alembic migrations
-  - [x] run demo seed
+  - [x] run Alembic migrations manually after Render env vars are configured
+  - [x] run demo seed manually after migrations
 - [x] Add Render setup section:
   - [x] backend service
   - [x] Redis/Key Value service
