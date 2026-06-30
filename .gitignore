@@ -38,3 +38,4 @@ storage/
 .DS_Store
 Thumbs.db
 TempFinetuningToPortifolio.md
+.vercel

@@ -14,6 +14,7 @@ Repository deployment files:
 
 - `backend/Dockerfile`
 - `frontend/Dockerfile`
+- `frontend/vercel.json`
 - `render.yaml`
 
 ## 1. Before You Start
@@ -184,18 +185,7 @@ The free Render tier does not support `preDeployCommand`, so migrations and seed
 
 You must run this after the Render service has environment variables configured.
 
-Preferred option if Render Shell is available:
-
-1. Open `grounded-document-assistant-api` in Render.
-2. Click `Shell`.
-3. Run:
-
-```bash
-alembic upgrade head
-python -m app.db.seed
-```
-
-Fallback option from your local terminal:
+Render Shell is not available on the free plan, so the free-tier path is to run migrations and seed from your local terminal against the Supabase database.
 
 1. Open a terminal in the project root.
 2. Activate the backend virtual environment:
@@ -230,6 +220,15 @@ cd ..
 ```
 
 Important: run the seed only against the dedicated Supabase demo database, never against a database containing real private documents or customer data.
+
+Optional paid-plan convenience:
+
+If your Render plan includes Shell, you can open `grounded-document-assistant-api`, click `Shell`, and run:
+
+```bash
+alembic upgrade head
+python -m app.db.seed
+```
 
 ### Step 5 - Copy The Backend URL
 
@@ -303,6 +302,8 @@ frontend
 ```
 
 3. Leave install/build commands as Vercel defaults unless Vercel asks.
+
+The repository also includes `frontend/vercel.json` with `framework: "nextjs"` so Vercel keeps the project on the Next.js deployment builder even if the dashboard initially shows `Other`.
 
 Expected:
 
@@ -600,6 +601,83 @@ Check:
 - Render backend is awake;
 - Render `CORS_ORIGINS` includes the Vercel frontend URL;
 - Vercel was redeployed after changing environment variables.
+
+For this project, the public demo values should be:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=https://grounded-document-assistant-api.onrender.com
+CORS_ORIGINS=https://grounded-document-assistant.vercel.app,http://localhost:3000,http://127.0.0.1:3000
+```
+
+### Vercel shows `404: NOT_FOUND`
+
+This means Vercel is not serving a successful deployment at that URL. It is not a backend or CORS problem.
+
+If Vercel says `Ready` and `grounded-document-assistant.vercel.app` appears under `Domains`, still run the checks below. A deployment can be ready while the production domain is attached to the wrong deployment, the wrong branch, or a project that was imported from the repository root instead of `frontend`.
+
+First check whether the deployment itself works:
+
+1. Open `https://vercel.com/dashboard`.
+2. Open the `grounded-document-assistant` project.
+3. Click `Deployments`.
+4. Click the latest deployment that says `Ready`.
+5. Click `Visit` from that deployment page.
+
+If the unique deployment URL also shows `404: NOT_FOUND`, Vercel probably deployed the repository root instead of the frontend app.
+
+Fix the project root:
+
+1. Open the Vercel project.
+2. Click `Settings`.
+3. Click `General`.
+4. Find `Root Directory`.
+5. Confirm it is exactly:
+
+```text
+frontend
+```
+
+6. If the root directory was wrong, change it to `frontend`.
+7. Click `Save`.
+8. Go back to `Deployments`.
+9. Click the three dots on the latest deployment.
+10. Click `Redeploy`.
+11. Do not reuse the build cache if Vercel offers that option.
+12. After the deployment is ready, click `Visit`.
+
+If the unique deployment URL works but `https://grounded-document-assistant.vercel.app` still shows `404: NOT_FOUND`, the domain is assigned incorrectly or is not pointing at the production deployment.
+
+Check the project domain:
+
+1. Open the Vercel project.
+2. Click `Settings`.
+3. Click `Domains`.
+4. Confirm `grounded-document-assistant.vercel.app` is listed.
+5. Confirm it is assigned to the current project.
+6. If the domain exists but still returns 404, remove it and add it again.
+7. Go back to `Deployments`.
+8. Open the latest `Ready` production deployment.
+9. Click the deployment actions menu.
+10. Click `Promote to Production` if that option appears.
+
+Also confirm the production branch:
+
+1. Open the Vercel project.
+2. Click `Settings`.
+3. Click `Git`.
+4. Confirm `Production Branch` matches the branch you pushed, usually:
+
+```text
+main
+```
+
+Finally, confirm the domain is not attached to another Vercel project:
+
+1. Open the Vercel project.
+2. Click `Settings`.
+3. Click `Domains`.
+4. Click `grounded-document-assistant.vercel.app`.
+5. Confirm the domain belongs to this project and points to the latest production deployment.
 
 ### Upload succeeds but document does not process
 
