@@ -4,12 +4,12 @@ This document describes the current public portfolio state of Grounded Document 
 
 ## Public Demo
 
-- Frontend: pending deployment
-- Backend health: pending deployment
-- API docs: pending deployment
+- Frontend: https://grounded-document-assistant.vercel.app
+- Backend health: https://grounded-document-assistant-api.onrender.com/health
+- API docs: https://grounded-document-assistant-api.onrender.com/docs
 - Demo video: pending recording
 
-The planned public demo stack is Vercel for the frontend, Render for the FastAPI backend, Supabase PostgreSQL with `pgvector`, and Render Key Value for Redis-compatible health checks and queue support. The first public demo runs ingestion inline on the backend; a separate worker is a later upgrade after shared file storage exists.
+The public demo stack uses Vercel for the frontend, Render for the FastAPI backend, Supabase PostgreSQL with `pgvector`, and Render Key Value for Redis-compatible health checks and queue support. The first public demo runs ingestion inline on the backend; a separate worker is a later upgrade after shared file storage exists.
 
 ## Current Stack
 
@@ -22,7 +22,7 @@ The planned public demo stack is Vercel for the frontend, Render for the FastAPI
 - AI providers: local deterministic providers by default, OpenAI-compatible provider paths available
 - Testing: pytest, ruff, frontend lint/typecheck/build, live smoke script
 - CI: GitHub Actions for backend and frontend validation
-- Planned hosting: Vercel, Render, Supabase, Render Key Value
+- Hosting: Vercel frontend, Render backend, Supabase PostgreSQL, Render Key Value
 
 ## Implemented Features
 
@@ -106,33 +106,39 @@ The smoke script expects PostgreSQL, Redis, the backend, and the worker to be ru
 
 ## Current Limitations
 
-- Public deployment is pending.
+- Public deployment is live, but Render free-tier services may cold start after inactivity.
 - Screenshots and demo video are pending.
 - Browser E2E tests such as Playwright are not implemented yet.
 - The default answer and embedding providers are deterministic local development providers, not production-quality model integrations.
 - PDF support targets text-based PDFs; scanned documents require OCR work later.
 - Local file storage is suitable for local development and a limited demo, but persistent public uploads need Supabase Storage or S3-compatible storage.
 - The permission model demonstrates workspace, restricted, and private visibility behavior, but it is not a full enterprise access-control system.
-- Render free-tier style deployment may cold start after inactivity once public deployment is added.
+- Public demo uploads use local filesystem storage on Render and may reset after restarts until shared object storage is added.
 
 ## Deployment Status
 
-The project is currently local-demo ready and almost portfolio-ready, but not yet public-demo ready.
+The project is public-demo deployed and nearly portfolio-ready.
 
-Remaining deployment work:
+Completed deployment work:
 
-- add backend deployment assets;
-- configure Supabase PostgreSQL and enable `pgvector`;
-- configure Render Key Value and `REDIS_URL`;
-- decide whether public uploads should persist across deploy restarts;
-- configure Render backend service;
-- configure Vercel frontend with `NEXT_PUBLIC_API_BASE_URL`;
-- seed public synthetic demo data;
-- validate public login, upload, ingestion, chat, citations, and evaluations;
+- backend deployment assets added;
+- Supabase PostgreSQL configured with `pgvector`;
+- Render Key Value configured;
+- Render backend service deployed;
+- Vercel frontend deployed with `NEXT_PUBLIC_API_BASE_URL`;
+- public synthetic demo data seeded;
+- Vercel origin allowed by Render CORS;
+- public health and API docs validated;
+- deployment guide updated with the final Vercel and Render setup.
+
+Remaining portfolio work:
+
 - capture screenshots and record the demo video.
+- add browser E2E coverage.
+- run final public smoke checks after media capture.
 
 ## Final Classification
 
-Project status: Almost portfolio-ready.
+Project status: Public-demo deployed and nearly portfolio-ready.
 
-Recommended next action: finish deployment assets and public hosting setup before capturing screenshots and recording the demo video.
+Recommended next action: capture screenshots, record the demo video, and run final validation.

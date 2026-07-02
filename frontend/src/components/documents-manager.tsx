@@ -288,7 +288,7 @@ export function DocumentsManager() {
     : null;
 
   return (
-    <div className="grid gap-6">
+    <div className="grid min-w-0 gap-6">
       <section className="rounded-[1.75rem] border border-border bg-surface-strong p-6 shadow-[0_16px_60px_rgba(19,33,47,0.1)]">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="space-y-2">
@@ -315,9 +315,9 @@ export function DocumentsManager() {
         </div>
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-[1fr_1.1fr]">
+      <section className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
         <form
-          className="rounded-[1.75rem] border border-border bg-surface-strong p-6 shadow-[0_16px_60px_rgba(19,33,47,0.1)]"
+          className="min-w-0 rounded-[1.75rem] border border-border bg-surface-strong p-6 shadow-[0_16px_60px_rgba(19,33,47,0.1)]"
           onSubmit={(event) => void handleUpload(event)}
         >
           <div className="space-y-2">
@@ -405,7 +405,7 @@ export function DocumentsManager() {
           </button>
         </form>
 
-        <div className="rounded-[1.75rem] border border-border bg-[#13212f] p-6 text-slate-100 shadow-[0_16px_60px_rgba(19,33,47,0.12)]">
+        <div className="min-w-0 rounded-[1.75rem] border border-border bg-[#13212f] p-6 text-slate-100 shadow-[0_16px_60px_rgba(19,33,47,0.12)]">
           <div className="flex items-center justify-between">
             <p className="text-sm font-semibold uppercase tracking-[0.22em] text-teal-200">
               Workspace documents
@@ -424,18 +424,19 @@ export function DocumentsManager() {
               documents.map((document) => (
                 <button
                   key={document.id}
-                  className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-left transition hover:bg-white/10"
+                  className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-left transition hover:bg-white/10"
                   onClick={() => void openDocument(document.id)}
                   type="button"
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-sm font-semibold text-white">
+                  <div className="flex min-w-0 items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="break-words text-sm font-semibold text-white">
                         {document.title}
                       </p>
-                      <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-400">
+                      <p className="mt-1 break-words text-xs uppercase tracking-[0.18em] text-slate-400">
                         {document.status} · {document.visibility} ·{" "}
-                        {document.latest_version?.extraction_status ?? "pending"}
+                        {document.latest_version?.extraction_status ??
+                          "pending"}
                       </p>
                     </div>
                     <span className="text-xs text-slate-400">
@@ -450,16 +451,16 @@ export function DocumentsManager() {
       </section>
 
       {selectedDocument ? (
-        <section className="rounded-[1.75rem] border border-border bg-surface-strong p-6 shadow-[0_16px_60px_rgba(19,33,47,0.1)]">
+        <section className="min-w-0 overflow-hidden rounded-[1.75rem] border border-border bg-surface-strong p-6 shadow-[0_16px_60px_rgba(19,33,47,0.1)]">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-            <div className="space-y-2">
+            <div className="min-w-0 space-y-2">
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-warm">
                 Document detail
               </p>
-              <h2 className="text-2xl font-semibold text-foreground">
+              <h2 className="break-words text-2xl font-semibold text-foreground">
                 {selectedDocument.title}
               </h2>
-              <p className="text-sm leading-7 text-slate-700">
+              <p className="break-words text-sm leading-7 text-slate-700">
                 {selectedDocument.description || "No description provided."}
               </p>
             </div>
@@ -495,7 +496,7 @@ export function DocumentsManager() {
             </div>
           </div>
 
-          <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-6 grid min-w-0 gap-5 md:grid-cols-2 xl:grid-cols-4">
             {[
               ["Status", selectedDocument.status],
               ["Visibility", selectedDocument.visibility],
@@ -504,34 +505,28 @@ export function DocumentsManager() {
                 "Latest file",
                 selectedDocument.latest_version?.file_name ?? "Unavailable",
               ],
-              [
-                "Chunks",
-                String(selectedDocument.latest_version_chunk_count),
-              ],
+              ["Chunks", String(selectedDocument.latest_version_chunk_count)],
               [
                 "Embeddings",
                 String(selectedDocument.latest_version_embedding_count),
               ],
-              [
-                "Logs",
-                String(selectedDocument.latest_version_logs.length),
-              ],
+              ["Logs", String(selectedDocument.latest_version_logs.length)],
             ].map(([label, value]) => (
               <div
                 key={label}
-                className="rounded-2xl border border-border bg-white/80 px-4 py-4"
+                className="min-w-0 rounded-2xl border border-border bg-white/80 px-4 py-4"
               >
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
                   {label}
                 </p>
-                <p className="mt-2 text-sm font-semibold text-foreground">
+                <p className="mt-2 break-words text-sm font-semibold text-foreground">
                   {value}
                 </p>
               </div>
             ))}
           </div>
 
-          <div className="mt-6 rounded-2xl border border-border bg-white/80 px-4 py-4">
+          <div className="mt-6 min-w-0 rounded-2xl border border-border bg-white/80 px-4 py-4">
             <p className="text-sm font-semibold text-foreground">
               Version history
             </p>
@@ -539,12 +534,12 @@ export function DocumentsManager() {
               {selectedDocument.versions.map((version) => (
                 <div
                   key={version.id}
-                  className="flex flex-col gap-1 rounded-2xl border border-border px-4 py-3 text-sm text-slate-700 md:flex-row md:items-center md:justify-between"
+                  className="flex min-w-0 flex-col gap-1 rounded-2xl border border-border px-4 py-3 text-sm text-slate-700 md:flex-row md:items-center md:justify-between"
                 >
-                  <span className="font-semibold text-foreground">
+                  <span className="min-w-0 break-words font-semibold text-foreground">
                     v{version.version_number} · {version.file_name}
                   </span>
-                  <span>
+                  <span className="min-w-0 break-words">
                     {version.mime_type} · {version.file_size_bytes} bytes ·{" "}
                     {version.extraction_status}
                   </span>
@@ -553,11 +548,11 @@ export function DocumentsManager() {
             </div>
           </div>
 
-          <div className="mt-6 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-            <div className="grid gap-6">
-              <div className="rounded-2xl border border-border bg-white/80 px-4 py-4">
-                <div className="flex items-center justify-between gap-3">
-                  <div>
+          <div className="mt-6 grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+            <div className="grid min-w-0 gap-6">
+              <div className="min-w-0 rounded-2xl border border-border bg-white/80 px-4 py-4">
+                <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="min-w-0">
                     <p className="text-sm font-semibold text-foreground">
                       Document content
                     </p>
@@ -565,14 +560,15 @@ export function DocumentsManager() {
                       Extracted reading view for the latest version
                     </p>
                   </div>
-                  <span className="text-xs uppercase tracking-[0.18em] text-slate-500">
-                    {selectedDocument.latest_version?.file_name ?? "latest version"}
+                  <span className="min-w-0 break-words text-xs uppercase tracking-[0.18em] text-slate-500">
+                    {selectedDocument.latest_version?.file_name ??
+                      "latest version"}
                   </span>
                 </div>
                 <div className="mt-4">
                   {documentContent ? (
-                    <div className="max-h-[34rem] overflow-y-auto rounded-2xl border border-border bg-slate-50 px-5 py-5">
-                      <pre className="whitespace-pre-wrap text-sm leading-7 text-slate-700">
+                    <div className="max-h-[34rem] max-w-full overflow-y-auto rounded-2xl border border-border bg-slate-50 px-5 py-5">
+                      <pre className="max-w-full whitespace-pre-wrap break-words text-sm leading-7 text-slate-700 [overflow-wrap:anywhere]">
                         {documentContent}
                       </pre>
                     </div>
@@ -585,8 +581,8 @@ export function DocumentsManager() {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-border bg-white/80 px-4 py-4">
-                <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0 rounded-2xl border border-border bg-white/80 px-4 py-4">
+                <div className="flex min-w-0 items-center justify-between gap-3">
                   <p className="text-sm font-semibold text-foreground">
                     Chunk preview
                   </p>
@@ -595,20 +591,21 @@ export function DocumentsManager() {
                   </span>
                 </div>
                 <div className="mt-4 space-y-3">
-                  {selectedDocument.latest_version_chunk_preview.length === 0 ? (
+                  {selectedDocument.latest_version_chunk_preview.length ===
+                  0 ? (
                     <p className="rounded-2xl border border-dashed border-border px-4 py-4 text-sm text-slate-600">
                       No chunks are available yet for the latest version.
                     </p>
                   ) : (
-                    selectedDocument.latest_version_chunk_preview.map((chunk) => (
-                      <ChunkCard chunk={chunk} key={chunk.id} />
-                    ))
+                    selectedDocument.latest_version_chunk_preview.map(
+                      (chunk) => <ChunkCard chunk={chunk} key={chunk.id} />,
+                    )
                   )}
                 </div>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-border bg-white/80 px-4 py-4">
+            <div className="min-w-0 rounded-2xl border border-border bg-white/80 px-4 py-4">
               <p className="text-sm font-semibold text-foreground">
                 Ingestion logs
               </p>
@@ -656,20 +653,20 @@ function LogCard({ log }: { log: IngestionLogEntry }) {
         : "border-emerald-200 bg-emerald-50 text-emerald-800";
 
   return (
-    <div className={`rounded-2xl border px-4 py-4 ${tone}`}>
-      <div className="flex items-center justify-between gap-3">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em]">
+    <div className={`min-w-0 rounded-2xl border px-4 py-4 ${tone}`}>
+      <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <p className="break-words text-sm font-semibold uppercase tracking-[0.16em]">
           {log.step}
         </p>
-        <span className="text-xs font-semibold uppercase tracking-[0.16em]">
+        <span className="break-words text-xs font-semibold uppercase tracking-[0.16em]">
           {log.status}
         </span>
       </div>
-      <p className="mt-2 text-sm leading-6">
+      <p className="mt-2 break-words text-sm leading-6 [overflow-wrap:anywhere]">
         {log.message || "No message provided."}
       </p>
       {log.details ? (
-        <pre className="mt-3 overflow-x-auto rounded-2xl bg-white/70 px-3 py-3 text-xs text-slate-700">
+        <pre className="mt-3 max-w-full overflow-x-auto rounded-2xl bg-white/70 px-3 py-3 text-xs text-slate-700">
           {JSON.stringify(log.details, null, 2)}
         </pre>
       ) : null}
@@ -679,13 +676,15 @@ function LogCard({ log }: { log: IngestionLogEntry }) {
 
 function ChunkCard({ chunk }: { chunk: DocumentChunkPreview }) {
   return (
-    <div className="rounded-2xl border border-border px-4 py-4">
-      <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+    <div className="min-w-0 rounded-2xl border border-border px-4 py-4">
+      <div className="flex min-w-0 flex-wrap items-center gap-2 break-words text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
         <span>Chunk {chunk.chunk_index}</span>
         {chunk.page_number ? <span>Page {chunk.page_number}</span> : null}
         {chunk.section_title ? <span>{chunk.section_title}</span> : null}
       </div>
-      <p className="mt-3 text-sm leading-7 text-slate-700">{chunk.content}</p>
+      <p className="mt-3 break-words text-sm leading-7 text-slate-700 [overflow-wrap:anywhere]">
+        {chunk.content}
+      </p>
       <p className="mt-2 text-xs text-slate-500">
         {chunk.token_count ?? 0} tokens estimated
       </p>

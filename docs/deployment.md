@@ -10,12 +10,31 @@ Target stack:
 - Redis-compatible dependency: Render Key Value
 - First demo ingestion mode: inline ingestion with `INGESTION_QUEUE_EAGER=true`
 
+Current public demo URLs:
+
+```text
+Frontend: https://grounded-document-assistant.vercel.app
+Backend:  https://grounded-document-assistant-api.onrender.com
+Health:   https://grounded-document-assistant-api.onrender.com/health
+Docs:     https://grounded-document-assistant-api.onrender.com/docs
+```
+
 Repository deployment files:
 
 - `backend/Dockerfile`
 - `frontend/Dockerfile`
 - `frontend/vercel.json`
 - `render.yaml`
+
+Important deployment lessons from this project:
+
+- Render free services do not support `preDeployCommand`.
+- Render Shell is not available on the free plan.
+- Vercel must deploy the `frontend` directory, not the repository root.
+- Vercel must use the Next.js framework builder. The committed `frontend/vercel.json` forces this.
+- Vercel Deployment Protection or SSO protection must be disabled for a public portfolio demo.
+- `NEXT_PUBLIC_API_BASE_URL` must not be blank, and Vercel must be redeployed after changing it.
+- Render `CORS_ORIGINS` must include the exact Vercel origin or browser login will fail.
 
 ## 1. Before You Start
 
@@ -162,6 +181,12 @@ DATABASE_URL=postgresql+psycopg://...supabase...?sslmode=require
 CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
 ```
 
+At first deploy time, the Vercel URL may not exist yet. After the Vercel deployment is created, update `CORS_ORIGINS` to include the live frontend URL:
+
+```env
+CORS_ORIGINS=https://grounded-document-assistant.vercel.app,http://localhost:3000,http://127.0.0.1:3000
+```
+
 Do not fill `REDIS_HOST` or `REDIS_PORT` manually. Render injects those from `grounded-document-assistant-redis`.
 
 Render generates `JWT_SECRET` automatically.
@@ -305,6 +330,8 @@ frontend
 
 The repository also includes `frontend/vercel.json` with `framework: "nextjs"` so Vercel keeps the project on the Next.js deployment builder even if the dashboard initially shows `Other`.
 
+If the dashboard still shows `Framework Preset: Other`, continue only after confirming `frontend/vercel.json` is committed and pushed. A deployment can say `Ready` but still return Vercel `404: NOT_FOUND` if Vercel builds without the Next.js deployment builder.
+
 Expected:
 
 ```text
@@ -313,7 +340,27 @@ Build Command: npm run build
 Output Directory: Next.js default
 ```
 
-### Step 3 - Add Environment Variable
+Do not set the output directory to `public`, `.`, `out`, or `.next`. Leave it as the Next.js default.
+
+### Step 3 - Disable Deployment Protection For Public Demo
+
+Vercel may protect generated deployment URLs with SSO or Deployment Protection. That is useful for private previews, but it blocks a public portfolio demo.
+
+In Vercel:
+
+1. Open the `grounded-document-assistant` project.
+2. Click `Settings`.
+3. Look for `Deployment Protection`, `Security`, or `Vercel Authentication`.
+4. Disable SSO or deployment protection for the public demo.
+5. Save the setting.
+
+If using the Vercel CLI, this command disables SSO protection for this project:
+
+```bash
+npx vercel project protection disable grounded-document-assistant --sso --scope publio1
+```
+
+### Step 4 - Add Environment Variable
 
 In the Vercel import screen, find `Environment Variables`.
 
@@ -325,7 +372,19 @@ NEXT_PUBLIC_API_BASE_URL=https://YOUR-RENDER-SERVICE.onrender.com
 
 Use the exact Render backend URL from the previous section.
 
-### Step 4 - Deploy
+For this project, the current value is:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=https://grounded-document-assistant-api.onrender.com
+```
+
+Important:
+
+- The value must not be empty.
+- Select the `Production` environment.
+- If you edit this variable after deployment, redeploy Vercel because `NEXT_PUBLIC_*` values are baked into the browser bundle.
+
+### Step 5 - Deploy
 
 1. Click `Deploy`.
 2. Wait for the build to finish.
@@ -338,6 +397,21 @@ https://grounded-document-assistant.vercel.app
 ```
 
 Copy this URL.
+
+Expected successful Vercel build signs:
+
+```text
+Detected Next.js version
+Running "npm run build"
+Running onBuildComplete from Vercel
+Route (app)
+- /
+- /app
+- /login
+- /register
+```
+
+If the deployment logs only show `Builds . [0ms]` in `vercel inspect`, the deployment is not using the proper Next.js builder. Confirm `frontend/vercel.json` is committed, redeploy, and do not override the output directory.
 
 ## 6. Update Render CORS
 
@@ -357,6 +431,30 @@ https://YOUR-VERCEL-APP.vercel.app,http://localhost:3000,http://127.0.0.1:3000
 7. Render should redeploy automatically.
 8. If it does not, click `Manual Deploy`.
 9. Click `Deploy latest commit`.
+
+For the current public demo, the correct value is:
+
+```env
+CORS_ORIGINS=https://grounded-document-assistant.vercel.app,http://localhost:3000,http://127.0.0.1:3000
+```
+
+After Render redeploys, test CORS from your local terminal:
+
+```bash
+curl -i -X OPTIONS 'https://grounded-document-assistant-api.onrender.com/auth/login' \
+  -H 'Origin: https://grounded-document-assistant.vercel.app' \
+  -H 'Access-Control-Request-Method: POST' \
+  -H 'Access-Control-Request-Headers: content-type'
+```
+
+Expected:
+
+```text
+HTTP/2 200
+access-control-allow-origin: https://grounded-document-assistant.vercel.app
+```
+
+If the response says `Disallowed CORS origin`, Render has not received or redeployed the correct `CORS_ORIGINS` value yet.
 
 ## 7. Public Demo Validation
 
@@ -402,6 +500,19 @@ Expected:
 - landing page loads;
 - login page loads;
 - owner and viewer demo-fill buttons are visible.
+
+Terminal check:
+
+```bash
+curl -I https://grounded-document-assistant.vercel.app/
+curl -I https://grounded-document-assistant.vercel.app/login
+```
+
+Expected:
+
+```text
+HTTP/2 200
+```
 
 ### Login
 
@@ -459,25 +570,16 @@ Expected:
 - score summary appears;
 - result rows appear.
 
-## 8. Update README After Deployment
+## 8. Verify README After Deployment
 
-After validation passes, update `README.md`.
+After validation passes, confirm `README.md` contains the public demo links.
 
-Replace:
-
-```md
-- Frontend: pending deployment
-- Backend health: pending deployment
-- API docs: pending deployment
-- Demo video: pending recording
-```
-
-with:
+Current expected values:
 
 ```md
-- Frontend: https://YOUR-VERCEL-APP.vercel.app
-- Backend health: https://YOUR-RENDER-SERVICE.onrender.com/health
-- API docs: https://YOUR-RENDER-SERVICE.onrender.com/docs
+- Frontend: https://grounded-document-assistant.vercel.app
+- Backend health: https://grounded-document-assistant-api.onrender.com/health
+- API docs: https://grounded-document-assistant-api.onrender.com/docs
 - Demo video: pending recording
 ```
 
@@ -570,8 +672,14 @@ These future storage variables are not implemented yet.
 - [ ] Render `/health` returns `ok`.
 - [ ] Render `/docs` loads.
 - [ ] Vercel frontend deployed.
+- [ ] `frontend/vercel.json` is committed and pushed.
+- [ ] Vercel Framework Preset is `Next.js` or the committed `vercel.json` forces Next.js.
+- [ ] Vercel Deployment Protection or SSO protection is disabled for the public demo.
 - [ ] `NEXT_PUBLIC_API_BASE_URL` configured in Vercel.
+- [ ] Vercel redeployed after setting `NEXT_PUBLIC_API_BASE_URL`.
 - [ ] Render `CORS_ORIGINS` includes the Vercel URL.
+- [ ] Render redeployed after setting `CORS_ORIGINS`.
+- [ ] CORS preflight from the Vercel origin succeeds.
 - [ ] Owner demo login works.
 - [ ] Upload and inline ingestion work.
 - [ ] Chat returns citations.
@@ -598,9 +706,11 @@ Check:
 Check:
 
 - `NEXT_PUBLIC_API_BASE_URL` in Vercel points to the Render backend URL;
+- `NEXT_PUBLIC_API_BASE_URL` is not empty;
 - Render backend is awake;
 - Render `CORS_ORIGINS` includes the Vercel frontend URL;
 - Vercel was redeployed after changing environment variables.
+- Render was redeployed after changing `CORS_ORIGINS`.
 
 For this project, the public demo values should be:
 
@@ -614,6 +724,15 @@ CORS_ORIGINS=https://grounded-document-assistant.vercel.app,http://localhost:300
 This means Vercel is not serving a successful deployment at that URL. It is not a backend or CORS problem.
 
 If Vercel says `Ready` and `grounded-document-assistant.vercel.app` appears under `Domains`, still run the checks below. A deployment can be ready while the production domain is attached to the wrong deployment, the wrong branch, or a project that was imported from the repository root instead of `frontend`.
+
+In this project, the most common cause was Vercel treating the app as `Other` instead of `Next.js`. Keep `frontend/vercel.json` committed:
+
+```json
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs"
+}
+```
 
 First check whether the deployment itself works:
 
@@ -678,6 +797,19 @@ Finally, confirm the domain is not attached to another Vercel project:
 3. Click `Domains`.
 4. Click `grounded-document-assistant.vercel.app`.
 5. Confirm the domain belongs to this project and points to the latest production deployment.
+
+If using the Vercel CLI, inspect the production deployment:
+
+```bash
+npx vercel inspect https://grounded-document-assistant.vercel.app --scope publio1
+```
+
+Healthy output should show Next.js output items under `Builds`, not only:
+
+```text
+Builds
+  . [0ms]
+```
 
 ### Upload succeeds but document does not process
 

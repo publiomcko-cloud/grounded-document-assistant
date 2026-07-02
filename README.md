@@ -8,12 +8,12 @@ Grounded Document Assistant is a portfolio project built to demonstrate applied 
 
 ## Live Portfolio Demo
 
-- Frontend: pending deployment
-- Backend health: pending deployment
-- API docs: pending deployment
+- Frontend: https://grounded-document-assistant.vercel.app
+- Backend health: https://grounded-document-assistant-api.onrender.com/health
+- API docs: https://grounded-document-assistant-api.onrender.com/docs
 - Demo video: pending recording
 
-Planned public deployment uses Vercel for the frontend, Render for the FastAPI backend, Supabase PostgreSQL with `pgvector`, and Render Key Value for Redis-compatible health checks and queue support. The first public demo runs ingestion inline on the backend; a separate worker is documented as a later upgrade after shared file storage is added.
+The public demo uses Vercel for the frontend, Render for the FastAPI backend, Supabase PostgreSQL with `pgvector`, and Render Key Value for Redis-compatible health checks and queue support. The first public demo runs ingestion inline on the backend; a separate worker is documented as a later upgrade after shared file storage is added.
 
 ## Demo Users
 
@@ -230,8 +230,10 @@ The smoke script logs in with the seeded owner account, uploads a text file, wai
 - [Case study](docs/case_study.md)
 - [Current state](docs/current_state.md)
 - [Database modeling](docs/database_modeling.md)
+- [Demo script](docs/demo_script.md)
 - [Deployment](docs/deployment.md)
 - [Local setup](docs/local_setup_execution.md)
+- [Portfolio readiness](docs/portfolio_readiness.md)
 - [Screen flows](docs/screen_flows.md)
 - [Testing](docs/testing.md)
 - [Test sequence](docs/test_sequence.md)
@@ -252,7 +254,7 @@ Archive:
 
 ## Known Limitations
 
-- Public deployment is still pending.
+- The public demo is deployed, but Render free-tier services may cold start after inactivity.
 - Demo screenshots and demo video are still pending.
 - Browser E2E tests such as Playwright are not implemented yet.
 - PDF support targets text-based PDFs; scanned OCR-heavy documents are future work.
@@ -262,9 +264,7 @@ Archive:
 
 ## Roadmap
 
-- Deploy public demo with Vercel, Render, Supabase PostgreSQL, and Render Key Value.
 - Add screenshots and a 60 to 180 second demo video.
-- Create current state, case study, demo script, and portfolio readiness docs.
 - Add Playwright browser E2E coverage.
 - Add optional Supabase Storage or S3-compatible file storage.
 - Add OCR support for scanned PDFs.

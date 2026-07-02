@@ -6,6 +6,41 @@ Reference project: `/home/publio/projetos/eCommerce` / DataPulse Commerce
 
 Target deployment pattern: Supabase PostgreSQL + Render backend + Render Key Value + Vercel frontend
 
+## 0. Current Position
+
+Status as of June 30, 2026: public deployment is live and the project has moved from deployment setup into portfolio asset polishing.
+
+Live URLs:
+
+```text
+Frontend: https://grounded-document-assistant.vercel.app
+Backend health: https://grounded-document-assistant-api.onrender.com/health
+API docs: https://grounded-document-assistant-api.onrender.com/docs
+```
+
+Verified:
+
+- [x] Vercel frontend returns `200`.
+- [x] Render backend `/health` returns `200`.
+- [x] Render CORS allows `https://grounded-document-assistant.vercel.app`.
+- [x] Vercel is using the Next.js deployment builder through `frontend/vercel.json`.
+- [x] `NEXT_PUBLIC_API_BASE_URL` is set to the Render backend URL.
+
+Current phase:
+
+- Phase 1 through Phase 5 are effectively complete.
+- We are now entering Phase 6 through Phase 8: screenshots, demo script/video, and portfolio readiness documentation.
+- README live links, demo script, and portfolio readiness documentation are now updated.
+
+Immediate next actions:
+
+1. [x] Update `README.md` live demo links.
+2. [x] Create `docs/demo_script.md`.
+3. [x] Create `docs/portfolio_readiness.md`.
+4. [ ] Capture screenshots into `docs/screenshots/`.
+5. [ ] Record or plan the demo video.
+6. [ ] Run final local and public validation.
+
 ## 1. Goal
 
 This document defines the remaining work needed to move Grounded Document Assistant from a strong local MVP into a polished public portfolio project comparable to DataPulse Commerce.
@@ -25,7 +60,7 @@ The current project already has the main application behavior implemented:
 - backend tests and frontend validation scripts
 - local smoke test script
 
-The missing work is mostly portfolio packaging, deployment readiness, public demo assets, documentation cleanup, and final verification.
+The missing work is mostly portfolio packaging, public demo assets, documentation cleanup, browser-level validation, and final verification.
 
 ## 2. Standard to Match
 
@@ -72,15 +107,15 @@ Grounded Document Assistant should reach the same portfolio shape, adapted to an
 
 ### Portfolio Gaps
 
-- [ ] No public frontend URL yet.
-- [ ] No public backend health URL yet.
-- [ ] No public API docs URL yet.
+- [x] Public frontend URL exists: `https://grounded-document-assistant.vercel.app`.
+- [x] Public backend health URL exists: `https://grounded-document-assistant-api.onrender.com/health`.
+- [x] Public API docs URL exists: `https://grounded-document-assistant-api.onrender.com/docs`.
 - [ ] No demo video yet.
 - [ ] No screenshots folder yet.
 - [x] `docs/current_state.md` exists.
 - [x] `docs/case_study.md` exists.
-- [ ] No `docs/demo_script.md`.
-- [ ] No `docs/portfolio_readiness.md`.
+- [x] `docs/demo_script.md` exists.
+- [x] `docs/portfolio_readiness.md` exists.
 - [x] `CHANGELOG.md` exists.
 - [x] `LICENSE` exists.
 - [x] `frontend/README.md` is project-specific.
@@ -91,8 +126,9 @@ Grounded Document Assistant should reach the same portfolio shape, adapted to an
 - [x] Frontend Dockerfile exists.
 - [x] Render deployment blueprint exists.
 - [ ] No Playwright/browser E2E test.
-- [ ] No public demo safety statement near the top of README.
-- [ ] No final portfolio readiness classification.
+- [x] Demo Safety section exists in README.
+- [x] README live demo links point to the public URLs.
+- [x] Final portfolio readiness classification exists.
 
 ## 4. Deployment Target
 
@@ -117,30 +153,20 @@ Use the same deployment style as DataPulse Commerce, adjusted for the extra work
 uvicorn app.main:app --host 0.0.0.0 --port $PORT
 ```
 
-- Pre-deploy command:
-
-```bash
-alembic upgrade head
-```
+- Render free tier does not support `preDeployCommand`.
+- Run Alembic migrations manually from the local terminal against the Supabase database.
+- Run demo seed data manually after migrations.
 
 ### Worker
 
-- Platform: Render
-- Service type: background worker
-- Root directory: repository root or `backend`, depending on final package path decision
-- Recommended command from repository root:
+- The first public demo does not use a separate worker.
+- The backend uses `INGESTION_QUEUE_EAGER=true` so uploads process inline.
+- A separate Render worker is a later paid/production-like upgrade after shared object storage exists.
+- Future worker command:
 
 ```bash
 python -m app.workers.run
 ```
-
-If the worker service root is `backend`, use:
-
-```bash
-python -m app.workers.run
-```
-
-with `PYTHONPATH` or package path verified in Render.
 
 ### Database
 
@@ -174,6 +200,8 @@ REDIS_URL=redis://...
 REDIS_HOST=
 REDIS_PORT=6379
 ```
+
+For Render Key Value, `REDIS_HOST` and `REDIS_PORT` are injected from the Render service. `REDIS_URL` is still useful for local development or another Redis provider.
 
 ### File Storage
 
@@ -248,16 +276,18 @@ Required README changes:
 
 - [x] Add CI badge.
 - [x] Add `Live Portfolio Demo` section near the top.
-- [x] Use placeholder links until deployed:
+- [x] Live Portfolio Demo section now uses public URLs:
 
 ```md
 ## Live Portfolio Demo
 
-- Frontend: pending deployment
-- Backend health: pending deployment
-- API docs: pending deployment
+- Frontend: https://grounded-document-assistant.vercel.app
+- Backend health: https://grounded-document-assistant-api.onrender.com/health
+- API docs: https://grounded-document-assistant-api.onrender.com/docs
 - Demo video: pending recording
 ```
+
+- [x] Replace placeholder links with the live Vercel and Render URLs.
 
 - [x] Add demo users:
 
@@ -329,7 +359,7 @@ Suggested current stack:
 Acceptance criteria:
 
 - [x] The document reflects actual implemented features.
-- [x] Public demo links are marked pending until deployed.
+- [x] Public demo links are updated from pending to the live Vercel and Render URLs.
 - [x] Limitations are honest and not alarmist.
 
 ## 8. Phase 4 — Case Study
@@ -366,6 +396,8 @@ Acceptance criteria:
 ## 9. Phase 5 — Deployment Assets
 
 Objective: make public deployment repeatable.
+
+Current status: complete for the first public demo. The frontend, backend health endpoint, API docs, and CORS preflight are live.
 
 Tasks:
 
@@ -416,6 +448,9 @@ Acceptance criteria:
 - [x] A reviewer can understand exactly where each service is hosted.
 - [x] Deployment docs do not list unused variables as required.
 - [x] Public deployment does not depend on committed secrets.
+- [x] Public frontend returns `200`.
+- [x] Public backend health returns `200`.
+- [x] Public CORS preflight succeeds from the Vercel origin.
 
 ## 10. Phase 6 — Screenshots
 
@@ -498,23 +533,22 @@ Required format:
 
 ## Pending
 
-- [ ] Public frontend deployed.
-- [ ] Public backend deployed.
 - [ ] Screenshots added.
+- [ ] Demo video recorded.
 
 ## Final Classification
 
-Project status: Almost portfolio-ready
+Project status: Public-demo deployed and nearly portfolio-ready
 
 Recommended next action:
-Deploy public demo and add screenshots/video.
+Capture screenshots, record the demo video, and run final validation.
 ```
 
 Acceptance criteria:
 
-- [ ] It honestly classifies the project.
-- [ ] It mirrors the checklist style from DataPulse Commerce.
-- [ ] It does not mark public-demo tasks complete before deployment exists.
+- [x] It honestly classifies the project.
+- [x] It mirrors the checklist style from DataPulse Commerce.
+- [x] It does not mark public-demo tasks complete before deployment exists.
 
 ## 13. Phase 9 — Testing and E2E
 
@@ -652,37 +686,37 @@ Acceptance criteria:
 
 Use this order to avoid rework:
 
-1. Repository cleanup
-2. Environment/config audit
-3. README rewrite with pending public links
-4. Current state doc
-5. Case study
-6. Portfolio readiness doc
-7. Deployment docs and Render/Vercel/Supabase files
-8. Local validation
-9. Deploy backend, worker, database, Redis, and frontend
-10. Seed public demo data
-11. Capture screenshots
-12. Record demo video
-13. Replace pending links in README
-14. Add Playwright E2E
-15. Final validation and changelog release
+1. [x] Repository cleanup
+2. [x] README rewrite with pending public links
+3. [x] Current state doc
+4. [x] Case study
+5. [x] Deployment docs and Render/Vercel/Supabase files
+6. [x] Deploy database, Redis-compatible service, backend, and frontend
+7. [x] Seed public demo data
+8. [x] Replace pending links in README
+9. [x] Portfolio readiness doc
+10. [x] Demo script
+11. [ ] Capture screenshots
+12. [ ] Record demo video
+13. [ ] Environment/config audit
+14. [ ] Add Playwright E2E
+15. [ ] Final validation and changelog release
 
 ## 18. Definition of Portfolio-Ready
 
 Mark the project portfolio-ready only when all of these are true:
 
 - [ ] README is polished and recruiter/client friendly.
-- [ ] Public frontend link exists.
-- [ ] Public backend health link exists.
-- [ ] API docs link exists.
+- [x] Public frontend link exists.
+- [x] Public backend health link exists.
+- [x] API docs link exists.
 - [ ] Demo credentials work.
 - [ ] Screenshots exist and are linked.
 - [ ] Demo video exists or is explicitly marked pending with a local MP4 plan.
 - [x] `docs/current_state.md` exists.
 - [x] `docs/case_study.md` exists.
-- [ ] `docs/demo_script.md` exists.
-- [ ] `docs/portfolio_readiness.md` exists.
+- [x] `docs/demo_script.md` exists.
+- [x] `docs/portfolio_readiness.md` exists.
 - [x] `CHANGELOG.md` exists.
 - [x] `LICENSE` exists.
 - [x] Historical docs are archived.
@@ -695,14 +729,17 @@ Mark the project portfolio-ready only when all of these are true:
 
 ## 19. Current Classification
 
-Current status: Almost portfolio-ready as a local MVP, not yet public portfolio-ready.
+Current status: public-demo deployed, portfolio packaging in progress.
 
 Reason:
 
 - The core application is functional and testable.
-- The repository still lacks public demo links, screenshots, demo video, final portfolio docs, license, changelog, and deployment assets.
-- The deployment target needs one important architecture decision around persistent file storage for uploaded documents.
+- The Vercel frontend and Render backend are live.
+- Backend health and API docs are reachable publicly.
+- CORS is configured for the Vercel frontend.
+- The repository still needs README live-link updates, screenshots, demo video/script, final portfolio readiness documentation, browser E2E, and final validation.
+- Persistent uploaded file storage remains a documented limitation for the first public demo.
 
 Recommended next action:
 
-Start with Phase 1 and Phase 2, then implement deployment assets before capturing screenshots/video. Screenshots should be taken after the final UI and public demo data are stable.
+Update README live links, then create the demo script and portfolio readiness document before capturing screenshots/video.
