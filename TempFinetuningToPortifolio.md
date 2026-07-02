@@ -8,7 +8,7 @@ Target deployment pattern: Supabase PostgreSQL + Render backend + Render Key Val
 
 ## 0. Current Position
 
-Status as of July 2, 2026: public deployment is live and the project has moved from deployment setup into portfolio asset polishing.
+Status as of July 2, 2026: public deployment is live, screenshots are captured, and the demo video is recorded.
 
 Live URLs:
 
@@ -31,7 +31,7 @@ Current phase:
 - Phase 1 through Phase 5 are complete.
 - Phase 8 is complete because `docs/portfolio_readiness.md` now exists.
 - Phase 6 is complete because screenshots were captured and embedded in `README.md`.
-- We are now in Phase 7: demo video.
+- Phase 7 is complete because the demo video was recorded into `docs/demo_video/`.
 - README live links, demo script, and portfolio readiness documentation are now updated.
 - The document detail layout overflow fix was applied before screenshots were captured.
 
@@ -41,7 +41,7 @@ Immediate next actions:
 2. [x] Create `docs/demo_script.md`.
 3. [x] Create `docs/portfolio_readiness.md`.
 4. [x] Capture screenshots into `docs/screenshots/`.
-5. [ ] Record or plan the demo video.
+5. [x] Record or plan the demo video.
 6. [ ] Run final local and public validation.
 
 ## 1. Goal
@@ -113,7 +113,7 @@ Grounded Document Assistant should reach the same portfolio shape, adapted to an
 - [x] Public frontend URL exists: `https://grounded-document-assistant.vercel.app`.
 - [x] Public backend health URL exists: `https://grounded-document-assistant-api.onrender.com/health`.
 - [x] Public API docs URL exists: `https://grounded-document-assistant-api.onrender.com/docs`.
-- [ ] No demo video yet.
+- [x] Demo video recorded in `docs/demo_video/grounded-document-assistant-demo.mp4`.
 - [x] Screenshots captured in `docs/screenshots/`.
 - [x] `docs/current_state.md` exists.
 - [x] `docs/case_study.md` exists.
@@ -287,7 +287,7 @@ Required README changes:
 - Frontend: https://grounded-document-assistant.vercel.app
 - Backend health: https://grounded-document-assistant-api.onrender.com/health
 - API docs: https://grounded-document-assistant-api.onrender.com/docs
-- Demo video: pending recording
+- Demo video: `docs/demo_video/grounded-document-assistant-demo.mp4`
 ```
 
 - [x] Replace placeholder links with the live Vercel and Render URLs.
@@ -492,7 +492,7 @@ Recommended video:
 
 - title: `Grounded Document Assistant - Portfolio Demo`
 - duration: 60 to 180 seconds
-- format: MP4
+- format: MP4 converted from the Playwright recording; a hosted upload can be added later if desired.
 
 Recommended flow:
 
@@ -515,9 +515,9 @@ Create `docs/demo_script.md` with:
 
 Acceptance criteria:
 
-- [ ] README links YouTube or local MP4.
-- [ ] Video does not expose secrets.
-- [ ] Video shows the unique value of the AI/RAG system.
+- [x] README links the local MP4 video.
+- [x] Video recording path uses public app pages and demo credentials only.
+- [x] Video shows the unique value of the AI/RAG system.
 
 ## 12. Phase 8 — Portfolio Readiness Document
 
@@ -537,14 +537,14 @@ Required format:
 ## Pending
 
 - [x] Screenshots added.
-- [ ] Demo video recorded.
+- [x] Demo video recorded.
 
 ## Final Classification
 
 Project status: Public-demo deployed and nearly portfolio-ready
 
 Recommended next action:
-Record the demo video and run final validation.
+Run final validation.
 ```
 
 Acceptance criteria:
@@ -700,7 +700,7 @@ Use this order to avoid rework:
 9. [x] Portfolio readiness doc
 10. [x] Demo script
 11. [x] Capture screenshots
-12. [ ] Record demo video
+12. [x] Record demo video
 13. [ ] Environment/config audit
 14. [ ] Add Playwright E2E
 15. [ ] Final validation and changelog release
@@ -715,7 +715,7 @@ Mark the project portfolio-ready only when all of these are true:
 - [x] API docs link exists.
 - [ ] Demo credentials work.
 - [x] Screenshots exist and are linked.
-- [ ] Demo video exists or is explicitly marked pending with a local MP4 plan.
+- [x] Demo video exists as a repo-hosted MP4 walkthrough.
 - [x] `docs/current_state.md` exists.
 - [x] `docs/case_study.md` exists.
 - [x] `docs/demo_script.md` exists.
@@ -727,7 +727,7 @@ Mark the project portfolio-ready only when all of these are true:
 - [ ] Environment docs match actual code.
 - [ ] Local validation commands pass.
 - [ ] Public smoke checks pass.
-- [ ] Known limitations are honest.
+- [x] Known limitations are honest.
 - [ ] No secrets or private documents are committed.
 
 ## 19. Current Classification
@@ -741,9 +741,9 @@ Reason:
 - Backend health and API docs are reachable publicly.
 - CORS is configured for the Vercel frontend.
 - README live links, demo script, and portfolio readiness documentation are complete.
-- The repository still needs demo video, browser E2E, and final validation.
+- The repository still needs browser E2E and final validation.
 - Persistent uploaded file storage remains a documented limitation for the first public demo.
 
 Recommended next action:
 
-Record or plan the demo video, then run final validation.
+Run final validation.

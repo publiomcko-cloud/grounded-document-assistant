@@ -28,6 +28,8 @@ This document tracks whether Grounded Document Assistant is ready for public por
 - [x] Demo script created.
 - [x] Browser screenshots captured for portfolio review.
 - [x] README includes screenshots.
+- [x] Demo video recorded as a repo-hosted MP4 walkthrough.
+- [x] Demo video link added to `README.md`.
 - [x] Changelog exists.
 - [x] MIT license exists.
 - [x] Historical planning docs archived.
@@ -36,8 +38,6 @@ This document tracks whether Grounded Document Assistant is ready for public por
 
 ## Pending
 
-- [ ] Record a 60 to 180 second demo video.
-- [ ] Add the demo video link to `README.md`.
 - [ ] Add Playwright/browser E2E coverage.
 - [ ] Run final backend checks.
 - [ ] Run final frontend checks.
@@ -61,7 +61,7 @@ This document tracks whether Grounded Document Assistant is ready for public por
 - [x] Deployment guide documents CORS validation.
 - [x] Screenshots exist and are valid image files.
 - [x] README screenshot references point to existing files.
-- [ ] Demo video exists or a hosted video link is available.
+- [x] Demo video exists or a hosted video link is available.
 - [ ] Browser E2E test can run locally or through a manual workflow.
 
 ## Public Demo Links
@@ -70,6 +70,7 @@ This document tracks whether Grounded Document Assistant is ready for public por
 Frontend: https://grounded-document-assistant.vercel.app
 Backend health: https://grounded-document-assistant-api.onrender.com/health
 API docs: https://grounded-document-assistant-api.onrender.com/docs
+Demo video: docs/demo_video/grounded-document-assistant-demo.mp4
 ```
 
 ## Demo Users
@@ -86,9 +87,9 @@ grounded-demo
 
 ## Final Classification
 
-Project status: Public-demo deployed and nearly portfolio-ready.
+Project status: Public-demo deployed with portfolio media captured; final validation remains.
 
-Recommended next action: record the demo video, add the video link to the README, then run final validation.
+Recommended next action: run final local and public validation.
 
 ## Notes
 

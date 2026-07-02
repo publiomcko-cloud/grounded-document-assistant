@@ -580,7 +580,7 @@ Current expected values:
 - Frontend: https://grounded-document-assistant.vercel.app
 - Backend health: https://grounded-document-assistant-api.onrender.com/health
 - API docs: https://grounded-document-assistant-api.onrender.com/docs
-- Demo video: pending recording
+- Demo video: docs/demo_video/grounded-document-assistant-demo.mp4
 ```
 
 ## 9. Optional Worker Upgrade
@@ -686,7 +686,7 @@ These future storage variables are not implemented yet.
 - [ ] Evaluation run completes.
 - [ ] README live demo links updated.
 - [ ] Screenshots captured.
-- [ ] Demo video recorded.
+- [x] Demo video recorded.
 
 ## 13. Common Issues
 

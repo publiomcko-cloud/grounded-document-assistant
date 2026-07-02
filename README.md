@@ -11,7 +11,7 @@ Grounded Document Assistant is a portfolio project built to demonstrate applied 
 - Frontend: https://grounded-document-assistant.vercel.app
 - Backend health: https://grounded-document-assistant-api.onrender.com/health
 - API docs: https://grounded-document-assistant-api.onrender.com/docs
-- Demo video: pending recording
+- Demo video: [83-second YouTube walkthrough](https://youtu.be/uu-j3RkwNWU)
 
 The public demo uses Vercel for the frontend, Render for the FastAPI backend, Supabase PostgreSQL with `pgvector`, and Render Key Value for Redis-compatible health checks and queue support. The first public demo runs ingestion inline on the backend; a separate worker is documented as a later upgrade after shared file storage is added.
 
@@ -260,7 +260,7 @@ Archive:
 ## Known Limitations
 
 - The public demo is deployed, but Render free-tier services may cold start after inactivity.
-- Demo video is still pending.
+- The demo video is stored as a local MP4 file in the repository; publish it to a hosted video platform later if a streamable public embed is preferred.
 - Browser E2E tests such as Playwright are not implemented yet.
 - PDF support targets text-based PDFs; scanned OCR-heavy documents are future work.
 - File storage currently uses local disk by default.
@@ -269,7 +269,7 @@ Archive:
 
 ## Roadmap
 
-- Record a 60 to 180 second demo video.
+- Optionally publish the demo video to a hosted platform such as YouTube or Loom.
 - Add Playwright browser E2E coverage.
 - Add optional Supabase Storage or S3-compatible file storage.
 - Add OCR support for scanned PDFs.

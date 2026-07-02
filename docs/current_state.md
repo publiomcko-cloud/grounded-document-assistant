@@ -8,7 +8,7 @@ This document describes the current public portfolio state of Grounded Document 
 - Backend health: https://grounded-document-assistant-api.onrender.com/health
 - API docs: https://grounded-document-assistant-api.onrender.com/docs
 - Screenshots: captured in `docs/screenshots/`
-- Demo video: pending recording
+- Demo video: captured in `docs/demo_video/grounded-document-assistant-demo.mp4`
 
 The public demo stack uses Vercel for the frontend, Render for the FastAPI backend, Supabase PostgreSQL with `pgvector`, and Render Key Value for Redis-compatible health checks and queue support. The first public demo runs ingestion inline on the backend; a separate worker is a later upgrade after shared file storage exists.
 
@@ -109,7 +109,7 @@ The smoke script expects PostgreSQL, Redis, the backend, and the worker to be ru
 
 - Public deployment is live, but Render free-tier services may cold start after inactivity.
 - Screenshots are captured.
-- Demo video is pending.
+- Demo video is captured as a local MP4 file in the repository; a hosted video mirror can be added later if desired.
 - Browser E2E tests such as Playwright are not implemented yet.
 - The default answer and embedding providers are deterministic local development providers, not production-quality model integrations.
 - PDF support targets text-based PDFs; scanned documents require OCR work later.
@@ -135,12 +135,11 @@ Completed deployment work:
 
 Remaining portfolio work:
 
-- record the demo video.
 - add browser E2E coverage.
 - run final public smoke checks after media capture.
 
 ## Final Classification
 
-Project status: Public-demo deployed and nearly portfolio-ready.
+Project status: Public-demo deployed with portfolio media captured; final validation remains.
 
-Recommended next action: record the demo video and run final validation.
+Recommended next action: run final local and public validation.
