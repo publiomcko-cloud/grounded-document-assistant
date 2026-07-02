@@ -20,7 +20,9 @@ import {
 
 export function ChatWorkspace() {
   const router = useRouter();
-  const [workspace, setWorkspace] = useState<ActiveWorkspaceResponse | null>(null);
+  const [workspace, setWorkspace] = useState<ActiveWorkspaceResponse | null>(
+    null,
+  );
   const [conversations, setConversations] = useState<ConversationSummary[]>([]);
   const [activeConversation, setActiveConversation] =
     useState<ConversationDetail | null>(null);
@@ -119,12 +121,15 @@ export function ChatWorkspace() {
       return;
     }
 
-    const loaded = await apiRequest<ConversationSummary[]>("/chat/conversations", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "X-Workspace-Id": workspaceId,
+    const loaded = await apiRequest<ConversationSummary[]>(
+      "/chat/conversations",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-Workspace-Id": workspaceId,
+        },
       },
-    });
+    );
     setConversations(loaded);
   }
 
@@ -202,7 +207,9 @@ export function ChatWorkspace() {
       await refreshConversations();
     } catch (requestError) {
       setError(
-        requestError instanceof Error ? requestError.message : "Question failed",
+        requestError instanceof Error
+          ? requestError.message
+          : "Question failed",
       );
     } finally {
       setSubmitting(false);
@@ -323,7 +330,9 @@ export function ChatWorkspace() {
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-warm">
-                {activeConversation ? "Active conversation" : "New conversation"}
+                {activeConversation
+                  ? "Active conversation"
+                  : "New conversation"}
               </p>
               <p className="mt-1 text-sm text-slate-700">
                 {activeConversation
@@ -342,7 +351,10 @@ export function ChatWorkspace() {
             ) : null}
           </div>
 
-          <form className="space-y-4" onSubmit={(event) => void handleAsk(event)}>
+          <form
+            className="space-y-4"
+            onSubmit={(event) => void handleAsk(event)}
+          >
             <label className="block space-y-2">
               <span className="text-sm font-medium text-foreground">
                 Ask a document-grounded question

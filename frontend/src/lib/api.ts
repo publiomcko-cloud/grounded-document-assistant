@@ -1,7 +1,6 @@
 const CONFIGURED_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const API_BASE_URL =
-  CONFIGURED_API_BASE_URL ?? "http://localhost:8000";
+export const API_BASE_URL = CONFIGURED_API_BASE_URL ?? "http://localhost:8000";
 
 function getApiCandidates(): string[] {
   const configured = CONFIGURED_API_BASE_URL ? [CONFIGURED_API_BASE_URL] : [];
@@ -23,7 +22,10 @@ function getApiCandidates(): string[] {
   return [...new Set([...configured, ...localFallbacks])];
 }
 
-export function getApiUrl(path: string, baseUrl: string = API_BASE_URL): string {
+export function getApiUrl(
+  path: string,
+  baseUrl: string = API_BASE_URL,
+): string {
   return `${baseUrl}${path}`;
 }
 

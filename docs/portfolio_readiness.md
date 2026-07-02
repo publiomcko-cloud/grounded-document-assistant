@@ -26,6 +26,8 @@ This document tracks whether Grounded Document Assistant is ready for public por
 - [x] Current state document created.
 - [x] Deployment guide created and updated with the Vercel/Render fixes discovered during deployment.
 - [x] Demo script created.
+- [x] Browser screenshots captured for portfolio review.
+- [x] README includes screenshots.
 - [x] Changelog exists.
 - [x] MIT license exists.
 - [x] Historical planning docs archived.
@@ -34,8 +36,6 @@ This document tracks whether Grounded Document Assistant is ready for public por
 
 ## Pending
 
-- [ ] Capture portfolio screenshots into `docs/screenshots/`.
-- [ ] Add a screenshots table to `README.md`.
 - [ ] Record a 60 to 180 second demo video.
 - [ ] Add the demo video link to `README.md`.
 - [ ] Add Playwright/browser E2E coverage.
@@ -59,8 +59,8 @@ This document tracks whether Grounded Document Assistant is ready for public por
 - [x] Deployment guide documents free-tier Render constraints.
 - [x] Deployment guide documents the Vercel Next.js framework fix.
 - [x] Deployment guide documents CORS validation.
-- [ ] Screenshots exist and are valid image files.
-- [ ] README screenshot references point to existing files.
+- [x] Screenshots exist and are valid image files.
+- [x] README screenshot references point to existing files.
 - [ ] Demo video exists or a hosted video link is available.
 - [ ] Browser E2E test can run locally or through a manual workflow.
 
@@ -88,7 +88,7 @@ grounded-demo
 
 Project status: Public-demo deployed and nearly portfolio-ready.
 
-Recommended next action: capture screenshots, record the demo video, add the media links to the README, then run final validation.
+Recommended next action: record the demo video, add the video link to the README, then run final validation.
 
 ## Notes
 

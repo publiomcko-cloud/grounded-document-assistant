@@ -79,16 +79,21 @@ login -> dashboard -> upload document -> ingestion -> chunks/embeddings
 
 ## Screenshots
 
-Screenshots are pending the final public demo pass.
+| Dashboard | Documents |
+| --- | --- |
+| ![Dashboard overview with health and metrics](docs/screenshots/01-dashboard.png) | ![Workspace documents list and upload panel](docs/screenshots/02-documents-list.png) |
 
-Planned screenshot set:
+| Document Content | Chat With Citations |
+| --- | --- |
+| ![Document detail with extracted content and chunk preview](docs/screenshots/03-document-content.png) | ![Grounded chat answer with stored citations](docs/screenshots/04-chat-with-citations.png) |
 
-- dashboard and health overview
-- document upload and document detail
-- extracted document content and chunks
-- chat answer with citations
-- evaluation set creation and run results
-- mobile chat or documents view
+| Evaluation Run | API Docs |
+| --- | --- |
+| ![Evaluation workflow and result summary](docs/screenshots/05-evaluation-run.png) | ![FastAPI documentation for backend routes](docs/screenshots/06-api-docs.png) |
+
+| Mobile Documents |
+| --- |
+| ![Mobile document workspace view](docs/screenshots/07-mobile-documents.png) |
 
 ## Deployment Architecture
 
@@ -255,7 +260,7 @@ Archive:
 ## Known Limitations
 
 - The public demo is deployed, but Render free-tier services may cold start after inactivity.
-- Demo screenshots and demo video are still pending.
+- Demo video is still pending.
 - Browser E2E tests such as Playwright are not implemented yet.
 - PDF support targets text-based PDFs; scanned OCR-heavy documents are future work.
 - File storage currently uses local disk by default.
@@ -264,7 +269,7 @@ Archive:
 
 ## Roadmap
 
-- Add screenshots and a 60 to 180 second demo video.
+- Record a 60 to 180 second demo video.
 - Add Playwright browser E2E coverage.
 - Add optional Supabase Storage or S3-compatible file storage.
 - Add OCR support for scanned PDFs.

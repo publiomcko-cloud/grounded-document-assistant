@@ -8,7 +8,7 @@ Target deployment pattern: Supabase PostgreSQL + Render backend + Render Key Val
 
 ## 0. Current Position
 
-Status as of June 30, 2026: public deployment is live and the project has moved from deployment setup into portfolio asset polishing.
+Status as of July 2, 2026: public deployment is live and the project has moved from deployment setup into portfolio asset polishing.
 
 Live URLs:
 
@@ -28,16 +28,19 @@ Verified:
 
 Current phase:
 
-- Phase 1 through Phase 5 are effectively complete.
-- We are now entering Phase 6 through Phase 8: screenshots, demo script/video, and portfolio readiness documentation.
+- Phase 1 through Phase 5 are complete.
+- Phase 8 is complete because `docs/portfolio_readiness.md` now exists.
+- Phase 6 is complete because screenshots were captured and embedded in `README.md`.
+- We are now in Phase 7: demo video.
 - README live links, demo script, and portfolio readiness documentation are now updated.
+- The document detail layout overflow fix was applied before screenshots were captured.
 
 Immediate next actions:
 
 1. [x] Update `README.md` live demo links.
 2. [x] Create `docs/demo_script.md`.
 3. [x] Create `docs/portfolio_readiness.md`.
-4. [ ] Capture screenshots into `docs/screenshots/`.
+4. [x] Capture screenshots into `docs/screenshots/`.
 5. [ ] Record or plan the demo video.
 6. [ ] Run final local and public validation.
 
@@ -111,7 +114,7 @@ Grounded Document Assistant should reach the same portfolio shape, adapted to an
 - [x] Public backend health URL exists: `https://grounded-document-assistant-api.onrender.com/health`.
 - [x] Public API docs URL exists: `https://grounded-document-assistant-api.onrender.com/docs`.
 - [ ] No demo video yet.
-- [ ] No screenshots folder yet.
+- [x] Screenshots captured in `docs/screenshots/`.
 - [x] `docs/current_state.md` exists.
 - [x] `docs/case_study.md` exists.
 - [x] `docs/demo_script.md` exists.
@@ -319,7 +322,7 @@ grounded-demo
   - onboarding knowledge systems
   - customer-support deflection
 
-- [ ] Add screenshots table after screenshots are captured.
+- [x] Add screenshots table after screenshots are captured.
 - [x] Add Demo Safety section:
   - demo documents are synthetic
   - no private legal, medical, financial, or customer documents are included
@@ -458,13 +461,13 @@ Create `docs/screenshots/`.
 
 Recommended screenshots:
 
-- [ ] `01-dashboard.png`
-- [ ] `02-documents-list.png`
-- [ ] `03-document-content.png`
-- [ ] `04-chat-with-citations.png`
-- [ ] `05-evaluation-run.png`
-- [ ] `06-retrieval-or-health.png`
-- [ ] `07-mobile-chat.png` or `07-mobile-documents.png`
+- [x] `01-dashboard.png`
+- [x] `02-documents-list.png`
+- [x] `03-document-content.png`
+- [x] `04-chat-with-citations.png`
+- [x] `05-evaluation-run.png`
+- [x] `06-api-docs.png`
+- [x] `07-mobile-documents.png`
 
 Screenshot rules:
 
@@ -477,9 +480,9 @@ Screenshot rules:
 
 Acceptance criteria:
 
-- [ ] README embeds screenshots in a table.
-- [ ] Screenshots match current UI.
-- [ ] Screenshots show the RAG-specific value: upload, citations, evaluation, and dashboard.
+- [x] README embeds screenshots in a table.
+- [x] Screenshots match current UI.
+- [x] Screenshots show the RAG-specific value: upload, citations, evaluation, and dashboard.
 
 ## 11. Phase 7 — Demo Video
 
@@ -504,11 +507,11 @@ Recommended flow:
 
 Create `docs/demo_script.md` with:
 
-- [ ] voiceover script
-- [ ] click path
-- [ ] demo credentials
-- [ ] safety note
-- [ ] fallback plan if Render cold-start delays the API
+- [x] voiceover script
+- [x] click path
+- [x] demo credentials
+- [x] safety note
+- [x] fallback plan if Render cold-start delays the API
 
 Acceptance criteria:
 
@@ -533,7 +536,7 @@ Required format:
 
 ## Pending
 
-- [ ] Screenshots added.
+- [x] Screenshots added.
 - [ ] Demo video recorded.
 
 ## Final Classification
@@ -541,7 +544,7 @@ Required format:
 Project status: Public-demo deployed and nearly portfolio-ready
 
 Recommended next action:
-Capture screenshots, record the demo video, and run final validation.
+Record the demo video and run final validation.
 ```
 
 Acceptance criteria:
@@ -696,7 +699,7 @@ Use this order to avoid rework:
 8. [x] Replace pending links in README
 9. [x] Portfolio readiness doc
 10. [x] Demo script
-11. [ ] Capture screenshots
+11. [x] Capture screenshots
 12. [ ] Record demo video
 13. [ ] Environment/config audit
 14. [ ] Add Playwright E2E
@@ -711,7 +714,7 @@ Mark the project portfolio-ready only when all of these are true:
 - [x] Public backend health link exists.
 - [x] API docs link exists.
 - [ ] Demo credentials work.
-- [ ] Screenshots exist and are linked.
+- [x] Screenshots exist and are linked.
 - [ ] Demo video exists or is explicitly marked pending with a local MP4 plan.
 - [x] `docs/current_state.md` exists.
 - [x] `docs/case_study.md` exists.
@@ -737,9 +740,10 @@ Reason:
 - The Vercel frontend and Render backend are live.
 - Backend health and API docs are reachable publicly.
 - CORS is configured for the Vercel frontend.
-- The repository still needs README live-link updates, screenshots, demo video/script, final portfolio readiness documentation, browser E2E, and final validation.
+- README live links, demo script, and portfolio readiness documentation are complete.
+- The repository still needs demo video, browser E2E, and final validation.
 - Persistent uploaded file storage remains a documented limitation for the first public demo.
 
 Recommended next action:
 
-Update README live links, then create the demo script and portfolio readiness document before capturing screenshots/video.
+Record or plan the demo video, then run final validation.

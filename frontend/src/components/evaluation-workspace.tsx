@@ -26,10 +26,16 @@ type DraftQuestion = {
 
 export function EvaluationWorkspace() {
   const router = useRouter();
-  const [workspace, setWorkspace] = useState<ActiveWorkspaceResponse | null>(null);
+  const [workspace, setWorkspace] = useState<ActiveWorkspaceResponse | null>(
+    null,
+  );
   const [sets, setSets] = useState<EvaluationSetSummary[]>([]);
-  const [selectedSet, setSelectedSet] = useState<EvaluationSetDetail | null>(null);
-  const [selectedRun, setSelectedRun] = useState<EvaluationRunDetail | null>(null);
+  const [selectedSet, setSelectedSet] = useState<EvaluationSetDetail | null>(
+    null,
+  );
+  const [selectedRun, setSelectedRun] = useState<EvaluationRunDetail | null>(
+    null,
+  );
   const [loading, setLoading] = useState(true);
   const [running, setRunning] = useState(false);
   const [creating, setCreating] = useState(false);
@@ -241,14 +247,17 @@ export function EvaluationWorkspace() {
     setCreating(true);
     setError(null);
     try {
-      const createdSet = await apiRequest<EvaluationSetDetail>("/evaluations/sets", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-Workspace-Id": workspaceId,
+      const createdSet = await apiRequest<EvaluationSetDetail>(
+        "/evaluations/sets",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "X-Workspace-Id": workspaceId,
+          },
+          body: JSON.stringify(payload),
         },
-        body: JSON.stringify(payload),
-      });
+      );
 
       const loadedSets = await apiRequest<EvaluationSetSummary[]>(
         "/evaluations/sets",
@@ -342,7 +351,9 @@ export function EvaluationWorkspace() {
 
         <div className="mt-6 grid gap-4">
           <label className="block space-y-2">
-            <span className="text-sm font-medium text-foreground">Set name</span>
+            <span className="text-sm font-medium text-foreground">
+              Set name
+            </span>
             <input
               className="w-full rounded-2xl border border-border bg-white px-4 py-3 text-sm outline-none transition focus:border-accent"
               onChange={(event) => setNewSetName(event.target.value)}
@@ -464,7 +475,9 @@ export function EvaluationWorkspace() {
                   onClick={() => void openSet(setItem.id)}
                   type="button"
                 >
-                  <p className="text-sm font-semibold text-white">{setItem.name}</p>
+                  <p className="text-sm font-semibold text-white">
+                    {setItem.name}
+                  </p>
                   <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-400">
                     {setItem.question_count} questions
                   </p>
@@ -514,8 +527,14 @@ export function EvaluationWorkspace() {
                 {[
                   ["Questions", String(selectedSet.questions.length)],
                   ["Recent runs", String(selectedSet.recent_runs.length)],
-                  ["Latest pass rate", String(selectedRun?.score_summary?.pass_rate ?? "—")],
-                  ["Latest avg score", String(selectedRun?.score_summary?.average_score ?? "—")],
+                  [
+                    "Latest pass rate",
+                    String(selectedRun?.score_summary?.pass_rate ?? "—"),
+                  ],
+                  [
+                    "Latest avg score",
+                    String(selectedRun?.score_summary?.average_score ?? "—"),
+                  ],
                 ].map(([label, value]) => (
                   <div
                     key={label}
@@ -553,7 +572,9 @@ export function EvaluationWorkspace() {
               </div>
 
               <div className="mt-6 rounded-2xl border border-border bg-white/80 px-4 py-4">
-                <p className="text-sm font-semibold text-foreground">Recent runs</p>
+                <p className="text-sm font-semibold text-foreground">
+                  Recent runs
+                </p>
                 <div className="mt-4 space-y-3">
                   {selectedSet.recent_runs.length === 0 ? (
                     <p className="rounded-2xl border border-dashed border-border px-4 py-4 text-sm text-slate-600">
@@ -629,8 +650,7 @@ export function EvaluationWorkspace() {
                   Generated: {result.generated_answer}
                 </p>
                 <p className="mt-2 text-xs text-slate-500">
-                  Retrieved chunks:{" "}
-                  {result.retrieved_chunk_ids?.length ?? 0}
+                  Retrieved chunks: {result.retrieved_chunk_ids?.length ?? 0}
                   {result.notes ? ` · ${result.notes}` : ""}
                 </p>
               </div>

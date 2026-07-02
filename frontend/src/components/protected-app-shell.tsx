@@ -59,21 +59,22 @@ export function ProtectedAppShell() {
 
         if (chosenWorkspaceId) {
           setStoredWorkspaceId(chosenWorkspaceId);
-          const [workspace, dashboardSummary, healthSummary] = await Promise.all([
-            apiRequest<ActiveWorkspaceResponse>("/workspaces/active", {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "X-Workspace-Id": chosenWorkspaceId,
-              },
-            }),
-            apiRequest<DashboardSummaryResponse>("/dashboard", {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "X-Workspace-Id": chosenWorkspaceId,
-              },
-            }),
-            fetchHealth(),
-          ]);
+          const [workspace, dashboardSummary, healthSummary] =
+            await Promise.all([
+              apiRequest<ActiveWorkspaceResponse>("/workspaces/active", {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "X-Workspace-Id": chosenWorkspaceId,
+                },
+              }),
+              apiRequest<DashboardSummaryResponse>("/dashboard", {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "X-Workspace-Id": chosenWorkspaceId,
+                },
+              }),
+              fetchHealth(),
+            ]);
           setActiveWorkspace(workspace);
           setDashboard(dashboardSummary);
           setHealth(healthSummary);
@@ -194,7 +195,8 @@ export function ProtectedAppShell() {
         dashboard?.latest_evaluation_run?.pass_rate !== null &&
         dashboard?.latest_evaluation_run?.pass_rate !== undefined
           ? `${Math.round(dashboard.latest_evaluation_run.pass_rate * 100)}%`
-          : activeWorkspace?.role === "owner" || activeWorkspace?.role === "admin"
+          : activeWorkspace?.role === "owner" ||
+              activeWorkspace?.role === "admin"
             ? "No runs yet"
             : "Restricted",
       tone: "bg-[#f5f0ff]",
@@ -254,7 +256,9 @@ export function ProtectedAppShell() {
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-300">
                   Signed in
                 </p>
-                <p className="mt-2 text-lg font-semibold text-white">{user.name}</p>
+                <p className="mt-2 text-lg font-semibold text-white">
+                  {user.name}
+                </p>
                 <p className="text-sm text-slate-300">{user.email}</p>
               </div>
               <button
@@ -415,7 +419,9 @@ export function ProtectedAppShell() {
                       </span>
                     </div>
                     <p className="mt-2 text-sm text-slate-700">
-                      <span className="font-semibold capitalize">{entry.step}</span>
+                      <span className="font-semibold capitalize">
+                        {entry.step}
+                      </span>
                       {entry.message ? ` · ${entry.message}` : ""}
                     </p>
                     <p className="mt-2 text-xs uppercase tracking-[0.16em] text-slate-500">
@@ -518,7 +524,9 @@ export function ProtectedAppShell() {
                     label="Average score"
                     value={
                       dashboard.latest_evaluation_run.average_score !== null
-                        ? dashboard.latest_evaluation_run.average_score.toFixed(2)
+                        ? dashboard.latest_evaluation_run.average_score.toFixed(
+                            2,
+                          )
                         : "—"
                     }
                   />
@@ -526,7 +534,9 @@ export function ProtectedAppShell() {
                     label="Passed questions"
                     value={
                       dashboard.latest_evaluation_run.passed_questions !== null
-                        ? String(dashboard.latest_evaluation_run.passed_questions)
+                        ? String(
+                            dashboard.latest_evaluation_run.passed_questions,
+                          )
                         : "—"
                     }
                   />
@@ -534,7 +544,9 @@ export function ProtectedAppShell() {
                     label="Total questions"
                     value={
                       dashboard.latest_evaluation_run.total_questions !== null
-                        ? String(dashboard.latest_evaluation_run.total_questions)
+                        ? String(
+                            dashboard.latest_evaluation_run.total_questions,
+                          )
                         : "—"
                     }
                   />
@@ -545,7 +557,8 @@ export function ProtectedAppShell() {
               </div>
             ) : (
               <div className="mt-5 rounded-2xl border border-dashed border-border px-4 py-6 text-sm text-slate-600">
-                {activeWorkspace?.role === "owner" || activeWorkspace?.role === "admin"
+                {activeWorkspace?.role === "owner" ||
+                activeWorkspace?.role === "admin"
                   ? "No evaluation runs yet for this workspace."
                   : "Evaluation history is reserved for owner and admin roles."}
               </div>
@@ -559,19 +572,27 @@ export function ProtectedAppShell() {
             <div className="mt-4 grid gap-3">
               <SnapshotMetric
                 label="Pending docs"
-                value={String(dashboard?.document_metrics.pending_documents ?? 0)}
+                value={String(
+                  dashboard?.document_metrics.pending_documents ?? 0,
+                )}
               />
               <SnapshotMetric
                 label="Processing docs"
-                value={String(dashboard?.document_metrics.processing_documents ?? 0)}
+                value={String(
+                  dashboard?.document_metrics.processing_documents ?? 0,
+                )}
               />
               <SnapshotMetric
                 label="Disabled docs"
-                value={String(dashboard?.document_metrics.disabled_documents ?? 0)}
+                value={String(
+                  dashboard?.document_metrics.disabled_documents ?? 0,
+                )}
               />
               <SnapshotMetric
                 label="Conversations"
-                value={String(dashboard?.usage_metrics.total_conversations ?? 0)}
+                value={String(
+                  dashboard?.usage_metrics.total_conversations ?? 0,
+                )}
               />
             </div>
           </div>
@@ -614,13 +635,7 @@ function HealthCard({
   );
 }
 
-function SnapshotMetric({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
+function SnapshotMetric({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-border bg-white/80 px-4 py-4">
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
